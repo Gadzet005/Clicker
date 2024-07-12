@@ -1,0 +1,19 @@
+name: nodeserver
+
+services:
+  server:
+    build:
+      dockerfile: Dockerfile_app
+      context: .
+    ports:
+      - "3005:3005"
+    depends_on:
+      postgres:
+        condition: service_started
+
+  postgres:
+    build:
+      dockerfile: Dockerfile_db
+      context: .
+    ports:
+      - "5434:5432"
