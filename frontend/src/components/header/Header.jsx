@@ -1,4 +1,10 @@
-import { HOME_PAGE, GAME_PAGE } from "../../routing/consts";
+import {
+  HOME_PAGE,
+  GAME_PAGE,
+  LOGIN_PAGE,
+  REGISTER_PAGE,
+  ACCOUNT_PAGE,
+} from "../../routing/consts";
 import { HeaderItem } from "./HeaderItem";
 
 export const Header = () => {
@@ -10,6 +16,18 @@ export const Header = () => {
     {
       name: "Игра",
       path: GAME_PAGE,
+    },
+    {
+      name: "Вход",
+      path: LOGIN_PAGE,
+    },
+    {
+      name: "Регистрация",
+      path: REGISTER_PAGE,
+    },
+    {
+      name: "Аккаунт",
+      path: ACCOUNT_PAGE,
     },
   ];
 
@@ -25,7 +43,7 @@ export const Header = () => {
   });
 
   return (
-    <div className="navbar navbar-expand-lg bg-body-tertiary">
+    <div className="navbar navbar-expand-lg bg-body-tertiary mb-3">
       <div className="container-fluid">
         <div className="collapse navbar-collapse justify-content-center">
           <div className="navbar-nav fs-3">{items}</div>
