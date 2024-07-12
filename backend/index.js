@@ -1,27 +1,24 @@
 const express = require("express");
-require('dotenv').config();
-
 const port = process.env.PORT || 3000;
 const app = express();
+const sequelize = require('./db/db');
+const urlencodedParser = express.urlencoded({ extended: false });
+const router = require('./router')
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./Swagger/index.json');
 
-const urlencodedParser = express.urlencoded({extended: false});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+require("dotenv").config();
 
-app.get("/", (req, res) => {
-    res.json({
-        hello: "hello world!"
-    })
-})
+
+app.use('', router);
 
 async function start() {
-    app.listen(port, () => {
-        console.log(`Listening on port ${port}`);
-    });
+  await sequelize.authenticate();
+  await sequelize.sync();
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
 }
-
-app.post("/", urlencodedParser, function (request, response) { // register
-    if(!request.body) return response.sendStatus(400);
-    console.log(request.body);
-    response.send(`${request.body.userName} - ${request.body.userAge}`);
-});
 
 start();
