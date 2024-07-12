@@ -5,7 +5,7 @@ const sequelize = require('./db/db');
 const urlencodedParser = express.urlencoded({ extended: false });
 const router = require('./router')
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./Swagger/index.json');
+const swaggerDocument = require('./swagger/index.json');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 require("dotenv").config();

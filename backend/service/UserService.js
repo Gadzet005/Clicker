@@ -2,7 +2,7 @@ const { User } = require('../db')
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt')
 const ApiError = require('../errors')
-const User_dto = require('../DTO/user_dto')
+const User_dto = require('../dto/user_dto')
 const tokenService = require('../service/TokenService')
 
 class UserService {
