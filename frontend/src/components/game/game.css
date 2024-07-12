@@ -1,0 +1,8 @@
+.center-block {
+  display: flex;
+  justify-content: center;
+}
+
+.word {
+  font-size: 80px;
+}
