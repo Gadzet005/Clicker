@@ -4,7 +4,7 @@ import {
   LOGIN_PAGE,
   REGISTER_PAGE,
   ACCOUNT_PAGE,
-  RATING_PAGE,
+  COIN_RATING_PAGE,
 } from "../../routing/consts";
 import { HeaderItem } from "./HeaderItem";
 import { useEffect, useState } from "react";
@@ -33,7 +33,7 @@ export const Header = () => {
     },
     {
       name: "Рейтинг",
-      path: RATING_PAGE,
+      path: COIN_RATING_PAGE,
     },
   ];
 

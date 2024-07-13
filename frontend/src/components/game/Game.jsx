@@ -68,7 +68,7 @@ export class Game extends React.Component {
   render = () => {
     return (
       <div className="d-flex">
-        <div className="d-flex flex-column ms-3">
+        <div className="d-flex flex-column ms-5">
           <Coins quantity={this.state.score} />
           <Words quantity={this.state.wordCount} />
         </div>
@@ -79,7 +79,9 @@ export class Game extends React.Component {
             onComplete={this.wordComplete}
             onCharComplete={this.charComplete}
           />
-          <div>{this.state.notes}</div>
+          <div className="d-flex justify-content-center">
+            {this.state.notes}
+          </div>
         </div>
       </div>
     );

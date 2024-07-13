@@ -2,9 +2,8 @@ import first from "./imgs/first.png";
 import second from "./imgs/second.png";
 import third from "./imgs/third.png";
 import other from "./imgs/other.png";
-import { Coins } from "../common/Coins";
 
-export const RatingItem = ({ name, score, place }) => {
+export const RatingItem = ({ name, score, place, IconComp }) => {
   let placeComp;
   if (place === 1) {
     placeComp = <img width="64px" height="64px" src={first} alt="1" />;
@@ -22,7 +21,7 @@ export const RatingItem = ({ name, score, place }) => {
         {placeComp}
         <p className="my-0 fs-1 text-secondary me-2 ms-5">{place}.</p>
         <p className="my-0 me-auto fs-1 text-secondary">{name}</p>
-        <Coins quantity={score} />
+        <IconComp quantity={score} />
       </div>
     </li>
   );
