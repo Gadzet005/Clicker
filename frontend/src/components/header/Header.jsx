@@ -4,8 +4,10 @@ import {
   LOGIN_PAGE,
   REGISTER_PAGE,
   ACCOUNT_PAGE,
+  COIN_RATING_PAGE,
 } from "../../routing/consts";
 import { HeaderItem } from "./HeaderItem";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
   const list = [
@@ -26,24 +28,37 @@ export const Header = () => {
       path: REGISTER_PAGE,
     },
     {
-      name: "Аккаунт",
+      name: "Профиль",
       path: ACCOUNT_PAGE,
+    },
+    {
+      name: "Рейтинг",
+      path: COIN_RATING_PAGE,
     },
   ];
 
-  const items = list.map(({ name, path }) => {
-    return (
-      <HeaderItem
-        key={name}
-        name={name}
-        path={path}
-        isActive={window.location.pathname === path}
-      />
+  const [items, setItems] = useState([]);
+
+  const updateItems = (activePath) => {
+    setItems(
+      list.map(({ name, path }) => {
+        return (
+          <HeaderItem
+            key={path}
+            name={name}
+            path={path}
+            onClick={updateItems}
+            isActive={path === activePath}
+          />
+        );
+      })
     );
-  });
+  };
+
+  useEffect(() => updateItems(window.location.pathname), []);
 
   return (
-    <div className="navbar navbar-expand-lg bg-body-tertiary mb-3">
+    <div className="navbar nav-underline navbar-expand-lg bg-body-tertiary mb-3">
       <div className="container-fluid">
         <div className="collapse navbar-collapse justify-content-center">
           <div className="navbar-nav fs-3">{items}</div>
