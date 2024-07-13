@@ -2,6 +2,8 @@ import React from "react";
 import "./game.css";
 import { Word } from "./Word";
 import { Note } from "./Note";
+import { Coins } from "../common/Coins";
+import { Words } from "../common/Words";
 
 export class Game extends React.Component {
   constructor(props) {
@@ -65,25 +67,19 @@ export class Game extends React.Component {
 
   render = () => {
     return (
-      <div>
-        <div className="d-flex flex-column">
-          <p className="d-flex justify-content-center fs-1">
-            Счет: {this.state.score}
-          </p>
-          <p className="d-flex justify-content-center fs-1">
-            Слов напечатано: {this.state.wordCount}
-          </p>
+      <div className="d-flex">
+        <div className="d-flex flex-column ms-3">
+          <Coins quantity={this.state.score} />
+          <Words quantity={this.state.wordCount} />
         </div>
 
-        <div className="d-flex justify-content-center mt-5">
+        <div className="d-flex flex-column mx-auto mt-5">
           <Word
             text={this.getWord()}
             onComplete={this.wordComplete}
             onCharComplete={this.charComplete}
           />
-        </div>
-        <div className="d-flex justify-content-center mt-5">
-          {this.state.notes}
+          <div>{this.state.notes}</div>
         </div>
       </div>
     );

@@ -4,6 +4,7 @@ import {
   LOGIN_PAGE,
   REGISTER_PAGE,
   ACCOUNT_PAGE,
+  RATING_PAGE,
 } from "../../routing/consts";
 import { HeaderItem } from "./HeaderItem";
 import { useEffect, useState } from "react";
@@ -27,8 +28,12 @@ export const Header = () => {
       path: REGISTER_PAGE,
     },
     {
-      name: "Аккаунт",
+      name: "Профиль",
       path: ACCOUNT_PAGE,
+    },
+    {
+      name: "Рейтинг",
+      path: RATING_PAGE,
     },
   ];
 
@@ -53,7 +58,7 @@ export const Header = () => {
   useEffect(() => updateItems(window.location.pathname), []);
 
   return (
-    <div className="navbar navbar-expand-lg bg-body-tertiary mb-3">
+    <div className="navbar nav-underline navbar-expand-lg bg-body-tertiary mb-3">
       <div className="container-fluid">
         <div className="collapse navbar-collapse justify-content-center">
           <div className="navbar-nav fs-3">{items}</div>

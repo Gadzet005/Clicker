@@ -3,3 +3,4 @@ export const LOGIN_PAGE = "/login";
 export const REGISTER_PAGE = "/register";
 export const ACCOUNT_PAGE = "/account";
 export const GAME_PAGE = "/game";
+export const RATING_PAGE = "/rating";
