@@ -1,16 +1,15 @@
-export const EmailField = ({ name = "email", label = "Email" }) => {
+export const TextField = ({ name = "text", label = "Текст" }) => {
   return (
     <div className="mb-3">
       <label htmlFor={name} className="form-label">
         {label}
       </label>
       <input
-        type="email"
+        type="name"
         name={name}
-        autoComplete="email"
         className="form-control"
+        placeholder="example"
         id={name}
-        placeholder="example@email.com"
       />
     </div>
   );

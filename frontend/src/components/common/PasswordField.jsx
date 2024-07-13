@@ -1,10 +1,16 @@
-export const PasswordField = () => {
+export const PasswordField = ({ name = "password", label = "Пароль" }) => {
   return (
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">
-        Пароль
+    <div className="mb-3">
+      <label htmlFor={name} className="form-label">
+        {label}
       </label>
-      <input type="password" class="form-control" id="exampleInputPassword1" />
+      <input
+        type="password"
+        name={name}
+        autoComplete="current-password"
+        className="form-control"
+        id={name}
+      />
     </div>
   );
 };
