@@ -34,7 +34,7 @@ export const Header = () => {
 
   const [items, setItems] = useState([]);
 
-  const updateItems = () => {
+  const updateItems = (activePath) => {
     setItems(
       list.map(({ name, path }) => {
         return (
@@ -42,15 +42,15 @@ export const Header = () => {
             key={path}
             name={name}
             path={path}
-            onClick={() => setItems([])}
-            isActive={path === window.location.pathname}
+            onClick={updateItems}
+            isActive={path === activePath}
           />
         );
       })
     );
   };
 
-  useEffect(() => updateItems());
+  useEffect(() => updateItems(window.location.pathname), []);
 
   return (
     <div className="navbar navbar-expand-lg bg-body-tertiary mb-3">

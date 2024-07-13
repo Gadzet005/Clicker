@@ -10,7 +10,7 @@ export const HeaderItem = ({
     return <p className="nav-link active mx-3 my-0">{name}</p>;
   }
   return (
-    <Link className="nav-link mx-3" to={path} onClick={onClick}>
+    <Link className="nav-link mx-3" to={path} onClick={() => onClick(path)}>
       {name}
     </Link>
   );
