@@ -9,7 +9,7 @@ class UserService {
     async register(email, name, password){
         try{
             if(await User.findOne({where: { email }})){
-                
+
                 throw new Error('Пользователь уже зарегистрирован');
             }
             
@@ -64,7 +64,6 @@ class UserService {
         const tokens = tokenService.generateTokens({
             email: localUserData.email,
             name: localUserData.name,
-            surname: localUserData.surname,
             id: localUserData.id,
         });
         await tokenService.refreshToken(localUserData.id, tokens.refreshToken);
