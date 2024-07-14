@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Coins } from "../common/Coins";
 
 export const Note = ({ value }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -16,13 +17,13 @@ export const Note = ({ value }) => {
   if (value > 0) {
     return (
       <div className="note">
-        <p className="text-success">+{value}</p>
+        <Coins value={<p className="text-success my-0">+{value}</p>} />
       </div>
     );
   }
   return (
     <div className="note">
-      <p className="text-danger">{value}</p>
+      <Coins value={<p className="text-danger my-0">{value}</p>} />
     </div>
   );
 };

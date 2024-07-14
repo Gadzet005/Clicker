@@ -55,7 +55,10 @@ export const Header = () => {
     );
   };
 
-  useEffect(() => updateItems(window.location.pathname), []);
+  useEffect(() => {
+    updateItems(window.location.pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="navbar nav-underline navbar-expand-lg bg-body-tertiary mb-3">

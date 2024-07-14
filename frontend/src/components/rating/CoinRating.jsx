@@ -22,7 +22,7 @@ export const CoinRating = () => {
 
   return (
     <div>
-      <RatingHeader />
+      <RatingHeader title={"Рейтинг игроков: монеты"} />
       <BaseRating getList={getPlayers} IconComp={Coins} />
     </div>
   );
