@@ -5,6 +5,7 @@ import {
   REGISTER_PAGE,
   ACCOUNT_PAGE,
   COIN_RATING_PAGE,
+  WORD_RATING_PAGE,
 } from "../../routing/consts";
 import { HeaderItem } from "./HeaderItem";
 import { useSelector } from "react-redux";
@@ -28,6 +29,7 @@ const list = [
     name: "Рейтинг",
     path: COIN_RATING_PAGE,
     type: FOR_ALL,
+    related: [WORD_RATING_PAGE],
   },
   {
     name: "Вход",
@@ -49,14 +51,14 @@ const list = [
 export const Header = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
 
-  const items = list.map(({ name, path, type }) => {
+  const items = list.map(({ name, path, type, related = null }) => {
     if (
       (isAuth && type === ONLY_FOR_ANONYMOUS) ||
       (!isAuth && type === ONLY_FOR_AUTH)
     ) {
       return;
     }
-    return <HeaderItem key={name} name={name} path={path} />;
+    return <HeaderItem key={name} name={name} path={path} related={related} />;
   });
 
   return (
