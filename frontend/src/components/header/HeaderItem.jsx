@@ -11,7 +11,8 @@ export const HeaderItem = ({ name, path, related = [] }) => {
       path === location.pathname ||
         (related && related.includes(location.pathname))
     );
-  }, [location.pathname, path]);
+    // eslint-disable-next-line
+  }, [location.pathname]);
 
   if (isActive) {
     return <p className="nav-link active mx-3 my-0">{name}</p>;

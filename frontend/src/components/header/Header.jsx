@@ -56,7 +56,7 @@ export const Header = () => {
       (isAuth && type === ONLY_FOR_ANONYMOUS) ||
       (!isAuth && type === ONLY_FOR_AUTH)
     ) {
-      return;
+      return null;
     }
     return <HeaderItem key={name} name={name} path={path} related={related} />;
   });

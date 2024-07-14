@@ -6,6 +6,7 @@ import { LOGIN_PAGE, ACCOUNT_PAGE } from "../../routing/consts";
 import { useEffect } from "react";
 import { setAuthAction } from "../../store/userReducers";
 import { useSelector, useDispatch } from "react-redux";
+import { userRegistration } from "../../api/userApi";
 
 export const Register = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -16,6 +17,7 @@ export const Register = () => {
     if (isAuth) {
       navigate(ACCOUNT_PAGE);
     }
+    // eslint-disable-next-line
   }, [isAuth]);
 
   // TODO: отравка запроса на сервер
@@ -28,7 +30,9 @@ export const Register = () => {
       data[key] = value;
     }
 
-    dispatch(setAuthAction(data));
+    userRegistration(data).then((data) => {
+      dispatch(setAuthAction(data));
+    });
   };
 
   return (
@@ -45,8 +49,8 @@ export const Register = () => {
         <form className="w-25" onSubmit={submitHandler}>
           <EmailField />
           <TextField name="name" label="Имя" />
-          <PasswordField name="password1" />
-          <PasswordField name="password2" label="Повторите пароль" />
+          <PasswordField name="password" />
+          <PasswordField name="passwordRepeat" label="Повторите пароль" />
           <button type="submit" className="btn btn-primary">
             Зарегистрироваться
           </button>

@@ -6,6 +6,7 @@ import { Coins } from "../common/Coins";
 import { Words } from "../common/Words";
 import { store } from "../../store";
 import { changeCoinsAction, changeWordsAction } from "../../store/userReducers";
+import { getWords } from "../../api/gameApi";
 
 export class Game extends React.Component {
   constructor(props) {
@@ -32,12 +33,14 @@ export class Game extends React.Component {
 
   // TODO: Запрос на сервер
   getNewWordList = () => {
-    return ["hello", "world", "bye"];
+    getWords(100, 0.1).then((words) => {
+      this.setState({ wordList: words });
+    });
   };
 
   updateWordList = () => {
+    this.getNewWordList();
     this.setState((state) => ({
-      wordList: this.getNewWordList(),
       curWordIdx: 0,
     }));
   };

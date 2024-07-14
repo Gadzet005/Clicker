@@ -5,6 +5,7 @@ import { REGISTER_PAGE, ACCOUNT_PAGE } from "../../routing/consts";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setAuthAction } from "../../store/userReducers";
+import { userLogin } from "../../api/userApi.js";
 
 export const Login = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -15,6 +16,7 @@ export const Login = () => {
     if (isAuth) {
       navigate(ACCOUNT_PAGE);
     }
+    // eslint-disable-next-line
   }, [isAuth]);
 
   // TODO: отравка запроса на сервер
@@ -27,7 +29,9 @@ export const Login = () => {
       data[key] = value;
     }
 
-    dispatch(setAuthAction(data));
+    userLogin(data).then((data) => {
+      dispatch(setAuthAction(data));
+    });
   };
 
   return (
