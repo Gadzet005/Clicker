@@ -81,14 +81,14 @@
           "produces": ["application/json"],
           "parameters": [
             {
-              "name": "uID",
+              "name": "UID",
               "description": "userid  (same as db userid)",
               "in": "formData",
               "required": true,
               "type": "uint64"
             },
             {
-              "name": "amt",
+              "name": "TonAmt",
               "description": "amount of tons to create transaction to",
               "in": "formData",
               "required": true,
