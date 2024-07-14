@@ -2,6 +2,7 @@ const express = require("express");
 const sequelize = require("./db/db");
 const router = require("./router");
 const cookieParser = require("cookie-parser");
+const errorHandlingMiddleware = require("./middleware/errorHandlingMiddleware");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger/index.json");
 const cors = require("cors");
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cookieParser());
 app.use("", router);
+app.use(errorHandlingMiddleware);
 
 async function start() {
   await sequelize.authenticate();
