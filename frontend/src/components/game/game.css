@@ -1,3 +1,27 @@
 .word {
-  font-size: 80px;
+  font-size: 100px;
+}
+
+.big-word {
+  font-size: 120px;
+}
+
+@keyframes move {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 300%, 0);
+  }
+}
+
+.note {
+  position: absolute;
+  font-size: 50px;
+
+  animation-name: move;
+  animation-duration: 2s;
+  animation-fill-mode: move;
 }
