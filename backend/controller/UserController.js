@@ -6,11 +6,13 @@ class UserController {
   async register(req, res, next) {
     try {
       const errors = validationResult(req);
-      if (!errors.isEmpty())
+      if (!errors.isEmpty()){
         return next(ApiError.badRequest(JSON.stringify(errors.mapped())));
+      }
 
       const { email, name, password } = req.body;
-      const { user, refreshToken, accessToken } = await userService.signUp(
+      const { user, refreshToken, accessToken } = await userService.register(
+        email,
         name,
         password
       );

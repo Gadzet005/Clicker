@@ -1,17 +1,21 @@
 const express = require("express");
-const port = process.env.PORT || 3000;
-const app = express();
-const sequelize = require('./db/db');
-const urlencodedParser = express.urlencoded({ extended: false });
-const router = require('./router')
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger/index.json');
+const sequelize = require("./db/db");
+const router = require("./router");
+const cookieParser = require("cookie-parser");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger/index.json");
+const cors = require("cors");
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 require("dotenv").config();
 
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.use('', router);
+app.use(cors());
+app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(cookieParser());
+app.use("", router);
 
 async function start() {
   await sequelize.authenticate();
