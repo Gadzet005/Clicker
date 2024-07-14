@@ -4,19 +4,28 @@ import { Word } from "./Word";
 import { Note } from "./Note";
 import { Coins } from "../common/Coins";
 import { Words } from "../common/Words";
+import { store } from "../../store";
+import { changeCoinsAction, changeWordsAction } from "../../store/userReducers";
 
 export class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      coins: 0,
-      words: 0,
+      coins: store.getState().user.profile.coins,
+      words: store.getState().user.profile.words,
 
       notes: [],
 
       wordList: [],
       curWordIdx: 0,
     };
+
+    store.subscribe(() => {
+      this.setState({
+        coins: store.getState().user.profile.coins,
+        words: store.getState().user.profile.words,
+      });
+    });
 
     this.noteId = 0;
   }
@@ -40,21 +49,26 @@ export class Game extends React.Component {
     return this.state.wordList[this.state.curWordIdx];
   };
 
-  changeCoins(value) {
+  changeCoins = (value) => {
+    store.dispatch(changeCoinsAction({ coins: value }));
+
     this.setState((state) => ({
-      coins: state.coins + value,
       notes: [...state.notes, <Note key={this.noteId} value={value} />],
     }));
     this.noteId++;
-  }
+  };
+
+  changeWords = (value) => {
+    store.dispatch(changeWordsAction({ words: value }));
+  };
 
   wordEnteredHandler = () => {
     const coinsByWord = 100;
 
     this.changeCoins(coinsByWord);
+    this.changeWords(1);
     this.setState((state) => ({
       curWordIdx: state.curWordIdx + 1,
-      words: state.words + 1,
     }));
 
     if (this.state.curWordIdx + 1 === this.state.wordList.length) {

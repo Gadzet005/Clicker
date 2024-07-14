@@ -1,10 +1,23 @@
 import { EmailField } from "../common/EmailField";
 import { PasswordField } from "../common/PasswordField";
 import { TextField } from "../common/TextField";
-import { Link } from "react-router-dom";
-import { LOGIN_PAGE } from "../../routing/consts";
+import { Link, useNavigate } from "react-router-dom";
+import { LOGIN_PAGE, ACCOUNT_PAGE } from "../../routing/consts";
+import { useEffect } from "react";
+import { setAuthAction } from "../../store/userReducers";
+import { useSelector, useDispatch } from "react-redux";
 
 export const Register = () => {
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate(ACCOUNT_PAGE);
+    }
+  }, [isAuth]);
+
   // TODO: отравка запроса на сервер
   const submitHandler = (event) => {
     event.preventDefault();
@@ -15,7 +28,7 @@ export const Register = () => {
       data[key] = value;
     }
 
-    console.log(data);
+    dispatch(setAuthAction(data));
   };
 
   return (
