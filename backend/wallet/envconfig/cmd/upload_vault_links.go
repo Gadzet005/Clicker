@@ -23,33 +23,3 @@ func main() {
 		}
 	}
 }
-
-/*
-
-es, err := envconfig.NewEnvStorage()
-	if err != nil {
-		log.Fatal("wallet failed to connect to env storage")
-	}
-
-	dealerAddr, err := es.EnvGetVal("addr_dealer", "walletAddr")
-	if err != nil {
-		log.Fatal("wallet failed to get it's addr: ", err)
-	}
-
-	walletSeed, err := es.EnvGetVal("secret_vals", "walletSeed")
-	if err != nil {
-		log.Fatal("wallet failed to get wallet seed: ", err)
-	} //configUrl string, lastTrLt
-
-	configUrl, err := es.EnvGetVal("saved_vals", "walletConfigUrl")
-	if err != nil {
-		log.Fatal("wallet failed to get config url: ", err)
-	}
-
-	var lastTransactionLt_s string
-	var lastTransactionLt uint64
-	if lastTransactionLt_s, err = es.EnvGetVal("secret_vals", "lastTransactionLt"); err != nil {
-		log.Fatal("wallet failed to get last transaction lt: ", err)
-	}
-
-*/
