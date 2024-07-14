@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile_app
       context: .
     ports:
-      - "3000:3000"
+      - "3005:3005"
     depends_on:
       postgres:
         condition: service_healthy
@@ -34,7 +34,7 @@ services:
         condition: service_healthy
       envconfig:
         condition: service_completed_successfully
-  
+
   vault:
     image: vault:1.13.3
     environment:
