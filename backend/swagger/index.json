@@ -1,0 +1,212 @@
+{
+    "info": {
+      "title": "Summer School Server",
+      "version": "1.0.0",
+      "description": "A sample API"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "swagger": "2.0",
+    "paths": {
+      "/register": {
+        "post": {
+          "description": "Returns the homepage",
+          "tags": ["User"],
+          "responses": {
+            "200": {
+              "description": "hello world"
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "description": "Login to the application",
+          "tags": ["User"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "$ref": "#/parameters/username"
+            },
+            {
+              "name": "password",
+              "description": "User's password.",
+              "in": "formData",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "login",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/Login"
+              }
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "description": "Returns users",
+          "tags": ["Users"],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "users"
+            }
+          }
+        },
+        "post": {
+          "description": "Returns users",
+          "tags": ["Users"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "$ref": "#/parameters/username"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "users"
+            }
+          }
+        }
+      },
+      "/getTransactionQR": {
+        "get": {
+          "description": "Returns qr as raw png image",
+          "tags": ["Wallet"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "UID",
+              "description": "userid  (same as db userid)",
+              "in": "formData",
+              "required": true,
+              "type": "uint64"
+            },
+            {
+              "name": "TonAmt",
+              "description": "amount of tons to create transaction to",
+              "in": "formData",
+              "required": true,
+              "type": "float64"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "succesfully created qr",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/getTransactionQRResponse"
+              }
+            }
+          }
+        }
+      },
+      "/getWords": {
+        "get": {
+          "description": "Generate words per request",
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "wordAmount",
+              "description": "amount of words expec ted to get",
+              "in": "formData",
+              "required": true,
+              "type": "int"
+            },
+            {
+              "name": "maxWordHardness",
+              "description": "procent between 0..1 how hard words should be (the more , the harder)",
+              "in": "formData",
+              "required": true,
+              "type": "float64"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "succesfully generated words",
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/GetWordsResponse"
+              }
+            }
+          }
+        }
+      },
+      "/hello": {
+        "get": {
+          "description": "Returns the homepage",
+          "responses": {
+            "200": {
+              "description": "hello world"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Login": {
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      },
+      "GetWordsResponse": {
+        "required": ["words"],
+        "properties": {
+          "words": {
+            "type": "[]string"
+          }
+        }
+      },
+      "getTransactionQRResponse": {
+        "required": ["QRrawData"],
+        "properties": {
+          "QRrawData": {
+            "type": "[]byte"
+          }
+        }
+      }
+    },
+    "responses": {},
+    "parameters": {
+      "username": {
+        "name": "username",
+        "description": "Username to use for login.",
+        "in": "formData",
+        "required": true,
+        "type": "string"
+      }
+    },
+    "securityDefinitions": {},
+    "tags": [
+      {
+        "name": "Users",
+        "description": "User management and login"
+      },
+      {
+        "name": "Wallet",
+        "description": "Transaction management"
+      },
+      {
+        "name": "Login",
+        "description": "Login"
+      },
+      {
+        "name": "Accounts",
+        "description": "Accounts"
+      }
+    ]
+  }

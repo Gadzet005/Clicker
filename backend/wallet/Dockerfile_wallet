@@ -1,0 +1,15 @@
+FROM golang:latest
+
+WORKDIR /app
+
+COPY wallet ./wallet
+COPY envconfig ./envconfig
+COPY go.work .
+COPY go.work.sum .
+
+RUN go mod download
+
+RUN go build -o wallet_server wallet/cmd/main.go
+EXPOSE 9090
+
+CMD ["./wallet_server"]
