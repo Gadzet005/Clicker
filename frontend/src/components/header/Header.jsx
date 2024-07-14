@@ -9,34 +9,34 @@ import {
 import { HeaderItem } from "./HeaderItem";
 import { useEffect, useState } from "react";
 
-export const Header = () => {
-  const list = [
-    {
-      name: "Главная",
-      path: HOME_PAGE,
-    },
-    {
-      name: "Игра",
-      path: GAME_PAGE,
-    },
-    {
-      name: "Вход",
-      path: LOGIN_PAGE,
-    },
-    {
-      name: "Регистрация",
-      path: REGISTER_PAGE,
-    },
-    {
-      name: "Профиль",
-      path: ACCOUNT_PAGE,
-    },
-    {
-      name: "Рейтинг",
-      path: COIN_RATING_PAGE,
-    },
-  ];
+const list = [
+  {
+    name: "Главная",
+    path: HOME_PAGE,
+  },
+  {
+    name: "Игра",
+    path: GAME_PAGE,
+  },
+  {
+    name: "Вход",
+    path: LOGIN_PAGE,
+  },
+  {
+    name: "Регистрация",
+    path: REGISTER_PAGE,
+  },
+  {
+    name: "Профиль",
+    path: ACCOUNT_PAGE,
+  },
+  {
+    name: "Рейтинг",
+    path: COIN_RATING_PAGE,
+  },
+];
 
+export const Header = () => {
   const [items, setItems] = useState([]);
 
   const updateItems = (activePath) => {
@@ -44,7 +44,7 @@ export const Header = () => {
       list.map(({ name, path }) => {
         return (
           <HeaderItem
-            key={path}
+            key={name}
             name={name}
             path={path}
             onClick={updateItems}

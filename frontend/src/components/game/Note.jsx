@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const Note = ({ score }) => {
+export const Note = ({ value }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -9,12 +9,20 @@ export const Note = ({ score }) => {
     }, 1000);
   }, []);
 
-  if (!isVisible || score === 0) {
+  if (!isVisible || value === 0) {
     return null;
   }
 
-  if (score > 0) {
-    return <p className="text-success">+{score}</p>;
+  if (value > 0) {
+    return (
+      <div className="note">
+        <p className="text-success">+{value}</p>
+      </div>
+    );
   }
-  return <p className="text-danger">{score}</p>;
+  return (
+    <div className="note">
+      <p className="text-danger">{value}</p>
+    </div>
+  );
 };

@@ -9,75 +9,84 @@ export class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      curWordIdx: 0,
-      score: 0,
-      wordCount: 0,
+      coins: 0,
+      words: 0,
+
       notes: [],
+
+      wordList: [],
+      curWordIdx: 0,
     };
-    this.words = this.getWords();
+
+    this.noteId = 0;
   }
 
   // TODO: Запрос на сервер
-  getWords = () => {
+  getNewWordList = () => {
     return ["hello", "world", "bye"];
   };
 
-  getWord = () => {
-    if (this.state.curWordIdx === this.words.length) {
-      this.setState((state) => ({
-        curWordIdx: 0,
-      }));
-      this.words = this.getWords();
-      return this.words[0];
-    }
-
-    return this.words[this.state.curWordIdx];
+  updateWordList = () => {
+    this.setState((state) => ({
+      wordList: this.getNewWordList(),
+      curWordIdx: 0,
+    }));
   };
 
-  wordComplete = () => {
-    const wordCompleteScore = 100;
+  getWord = () => {
+    if (this.state.curWordIdx >= this.state.wordList.length) {
+      return null;
+    }
+    return this.state.wordList[this.state.curWordIdx];
+  };
 
+  changeCoins(value) {
+    this.setState((state) => ({
+      coins: state.coins + value,
+      notes: [...state.notes, <Note key={this.noteId} value={value} />],
+    }));
+    this.noteId++;
+  }
+
+  wordEnteredHandler = () => {
+    const coinsByWord = 100;
+
+    this.changeCoins(coinsByWord);
     this.setState((state) => ({
       curWordIdx: state.curWordIdx + 1,
-      score: state.score + wordCompleteScore,
-      wordCount: state.wordCount + 1,
-      notes: [
-        ...state.notes,
-        <div className="note">
-          <Note score={wordCompleteScore} />
-        </div>,
-      ],
+      words: state.words + 1,
     }));
+
+    if (this.state.curWordIdx + 1 === this.state.wordList.length) {
+      this.updateWordList();
+    }
   };
 
-  charComplete = (success) => {
-    const charCompleteScore = 10;
-    const scoreChange = success ? charCompleteScore : -charCompleteScore;
+  letterEnteredHandler = (success) => {
+    const coinsByLetterSuccess = 10;
+    const coinsByLetterFailure = -50;
 
-    this.setState((state) => ({
-      notes: [
-        ...state.notes,
-        <div className="note">
-          <Note score={scoreChange} />
-        </div>,
-      ],
-      score: state.score + scoreChange,
-    }));
+    const value = success ? coinsByLetterSuccess : coinsByLetterFailure;
+    this.changeCoins(value);
+  };
+
+  componentDidMount = () => {
+    this.updateWordList();
   };
 
   render = () => {
     return (
       <div className="d-flex">
         <div className="d-flex flex-column ms-5">
-          <Coins quantity={this.state.score} />
-          <Words quantity={this.state.wordCount} />
+          <Coins value={this.state.coins} />
+          <Words value={this.state.words} />
         </div>
 
         <div className="d-flex flex-column mx-auto mt-5">
           <Word
             text={this.getWord()}
-            onComplete={this.wordComplete}
-            onCharComplete={this.charComplete}
+            onWordEntered={this.wordEnteredHandler}
+            onLetterEntered={this.letterEnteredHandler}
           />
           <div className="d-flex justify-content-center">
             {this.state.notes}
