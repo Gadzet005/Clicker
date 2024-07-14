@@ -6,15 +6,22 @@ const User_dto = require('../dto/user_dto')
 const tokenService = require('../service/TokenService')
 
 class UserService {
-    async register(name, password){
+    async register(email, name, password){
         try{
-            if(await User.findOne({where: { email }})) throw new Error('Пользователь уже зарегистрирован');
+            if(await User.findOne({where: { email }})){
 
-            const hashPassword = await bcrypt.hash(password, 5)
-            const user = await User.create({email, name, password: hashPassword, surname, refreshToken: 'asd'})
+                throw new Error('Пользователь уже зарегистрирован');
+            }
+            
+            const hashPassword = await bcrypt.hash(password, 5);
+            const user = await User.create({email: email, name: name, walletData: '', password: hashPassword, refreshToken: 'tmp'})
+
 
             const userDTO = new User_dto(user);
+
+
             const tokens = tokenService.generateTokens({...userDTO});
+
 
             await tokenService.saveToken(userDTO.id, tokens.refreshToken);
             return{
@@ -57,7 +64,6 @@ class UserService {
         const tokens = tokenService.generateTokens({
             email: localUserData.email,
             name: localUserData.name,
-            surname: localUserData.surname,
             id: localUserData.id,
         });
         await tokenService.refreshToken(localUserData.id, tokens.refreshToken);

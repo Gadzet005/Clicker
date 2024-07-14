@@ -8,7 +8,7 @@
     "basePath": "/",
     "swagger": "2.0",
     "paths": {
-      "/signUp": {
+      "/register": {
         "post": {
           "description": "Returns the homepage",
           "tags": ["User"],
@@ -19,7 +19,7 @@
           }
         }
       },
-      "/signIn": {
+      "/login": {
         "post": {
           "description": "Login to the application",
           "tags": ["User"],

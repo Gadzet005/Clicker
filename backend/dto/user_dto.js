@@ -2,13 +2,13 @@ class User_dto{
     name;
     email;
     id;
-    wallet;
+    walletData;
 
     constructor(model) {
         this.email = model.email;
         this.name = model.name;
         this.id = model.id;
-        this.wallet = model.wallet;
+        this.walletData = model.walletData;
     }
 }
 
