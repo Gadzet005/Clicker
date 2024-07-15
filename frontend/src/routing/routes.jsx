@@ -15,16 +15,21 @@ import { Account } from "../components/account/Account";
 import { CoinRating } from "../components/rating/CoinRating";
 import { WordRating } from "../components/rating/WordRating";
 
-export const authRoutes = [];
+export const authRoutes = [
+  {
+    path: GAME_PAGE,
+    component: <Game />,
+  },
+  {
+    path: ACCOUNT_PAGE,
+    component: <Account />,
+  },
+];
 
 export const publicRoutes = [
   {
     path: HOME_PAGE,
     component: <Home />,
-  },
-  {
-    path: GAME_PAGE,
-    component: <Game />,
   },
   {
     path: LOGIN_PAGE,
@@ -33,10 +38,6 @@ export const publicRoutes = [
   {
     path: REGISTER_PAGE,
     component: <Register />,
-  },
-  {
-    path: ACCOUNT_PAGE,
-    component: <Account />,
   },
   {
     path: COIN_RATING_PAGE,

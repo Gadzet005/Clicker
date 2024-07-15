@@ -4,80 +4,105 @@ import { Word } from "./Word";
 import { Note } from "./Note";
 import { Coins } from "../common/Coins";
 import { Words } from "../common/Words";
+import { store } from "../../store";
+import { changeCoinsAction, changeWordsAction } from "../../store/userReducers";
+import { getWords } from "../../api/gameApi";
 
 export class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      curWordIdx: 0,
-      score: 0,
-      wordCount: 0,
+      coins: store.getState().user.profile.coins,
+      words: store.getState().user.profile.words,
+
       notes: [],
+
+      wordList: [],
+      curWordIdx: 0,
     };
-    this.words = this.getWords();
+
+    store.subscribe(() => {
+      this.setState({
+        coins: store.getState().user.profile.coins,
+        words: store.getState().user.profile.words,
+      });
+    });
+
+    this.noteId = 0;
   }
 
-  // TODO: Запрос на сервер
-  getWords = () => {
-    return ["hello", "world", "bye"];
+  getNewWordList = () => {
+    getWords(100, 0.1).then((words) => {
+      this.setState({ wordList: words });
+    });
+  };
+
+  updateWordList = () => {
+    this.getNewWordList();
+    this.setState((state) => ({
+      curWordIdx: 0,
+    }));
   };
 
   getWord = () => {
-    if (this.state.curWordIdx === this.words.length) {
-      this.setState((state) => ({
-        curWordIdx: 0,
-      }));
-      this.words = this.getWords();
-      return this.words[0];
+    if (this.state.curWordIdx >= this.state.wordList.length) {
+      return null;
     }
-
-    return this.words[this.state.curWordIdx];
+    return this.state.wordList[this.state.curWordIdx];
   };
 
-  wordComplete = () => {
-    const wordCompleteScore = 100;
+  changeCoins = (value) => {
+    store.dispatch(changeCoinsAction({ coins: value }));
 
+    this.setState((state) => ({
+      notes: [...state.notes, <Note key={this.noteId} value={value} />],
+    }));
+    this.noteId++;
+  };
+
+  changeWords = (value) => {
+    store.dispatch(changeWordsAction({ words: value }));
+  };
+
+  wordEnteredHandler = () => {
+    const coinsByWord = 100;
+
+    this.changeCoins(coinsByWord);
+    this.changeWords(1);
     this.setState((state) => ({
       curWordIdx: state.curWordIdx + 1,
-      score: state.score + wordCompleteScore,
-      wordCount: state.wordCount + 1,
-      notes: [
-        ...state.notes,
-        <div className="note">
-          <Note score={wordCompleteScore} />
-        </div>,
-      ],
     }));
+
+    if (this.state.curWordIdx + 1 === this.state.wordList.length) {
+      this.updateWordList();
+    }
   };
 
-  charComplete = (success) => {
-    const charCompleteScore = 10;
-    const scoreChange = success ? charCompleteScore : -charCompleteScore;
+  letterEnteredHandler = (success) => {
+    const coinsByLetterSuccess = 10;
+    const coinsByLetterFailure = -50;
 
-    this.setState((state) => ({
-      notes: [
-        ...state.notes,
-        <div className="note">
-          <Note score={scoreChange} />
-        </div>,
-      ],
-      score: state.score + scoreChange,
-    }));
+    const value = success ? coinsByLetterSuccess : coinsByLetterFailure;
+    this.changeCoins(value);
+  };
+
+  componentDidMount = () => {
+    this.updateWordList();
   };
 
   render = () => {
     return (
       <div className="d-flex">
         <div className="d-flex flex-column ms-5">
-          <Coins quantity={this.state.score} />
-          <Words quantity={this.state.wordCount} />
+          <Coins value={this.state.coins} />
+          <Words value={this.state.words} />
         </div>
 
         <div className="d-flex flex-column mx-auto mt-5">
           <Word
             text={this.getWord()}
-            onComplete={this.wordComplete}
-            onCharComplete={this.charComplete}
+            onWordEntered={this.wordEnteredHandler}
+            onLetterEntered={this.letterEnteredHandler}
           />
           <div className="d-flex justify-content-center">
             {this.state.notes}

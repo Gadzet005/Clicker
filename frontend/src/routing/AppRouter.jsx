@@ -1,8 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { authRoutes, publicRoutes } from "./routes.jsx";
+import { useSelector } from "react-redux";
 
 export const AppRouter = () => {
-  const isAuth = true; // TODO: Добавить авторизацию
+  const isAuth = useSelector((state) => state.user.isAuth);
 
   const authRoutesComp = authRoutes.map(({ path, component }) => {
     return <Route key={path} path={path} element={component} />;

@@ -1,10 +1,27 @@
 import { EmailField } from "../common/EmailField";
 import { PasswordField } from "../common/PasswordField";
-import { Link } from "react-router-dom";
-import { REGISTER_PAGE } from "../../routing/consts";
+import { FormError } from "../common/FormError";
+import { Link, useNavigate } from "react-router-dom";
+import { REGISTER_PAGE, ACCOUNT_PAGE } from "../../routing/consts";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { setAuthAction } from "../../store/userReducers";
+import { userLogin } from "../../api/userApi.js";
 
 export const Login = () => {
-  // TODO: отравка запроса на сервер
+  const [error, setError] = useState(null);
+
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate(ACCOUNT_PAGE);
+    }
+    // eslint-disable-next-line
+  }, [isAuth]);
+
   const submitHandler = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -14,7 +31,13 @@ export const Login = () => {
       data[key] = value;
     }
 
-    console.log(data);
+    userLogin(data).then((data) => {
+      if (data.success) {
+        dispatch(setAuthAction(data));
+      } else {
+        setError(<FormError message={data.message} />);
+      }
+    });
   };
 
   return (
@@ -26,6 +49,7 @@ export const Login = () => {
           Страница регистрации
         </Link>
       </div>
+      <div className="d-flex justify-content-center">{error}</div>
 
       <div className="d-flex justify-content-center">
         <form className="w-25" onSubmit={submitHandler}>

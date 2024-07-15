@@ -4,38 +4,38 @@ export class Word extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      curCharIdx: 0,
+      curLetterIdx: 0,
       lastWasWrong: false,
     };
   }
 
   keyDown = (event) => {
-    if (event.key.length > 1) {
+    if (!this.props.text || event.key.length > 1) {
       return;
     }
 
     const word = this.props.text;
-    const expected = word.charAt(this.state.curCharIdx);
+    const expected = word.charAt(this.state.curLetterIdx);
 
     if (event.key === expected) {
-      if (this.state.curCharIdx + 1 === word.length) {
-        this.props.onComplete();
+      if (this.state.curLetterIdx + 1 === word.length) {
+        this.props.onWordEntered();
         this.setState((state) => ({
-          curCharIdx: 0,
+          curLetterIdx: 0,
           lastWasWrong: false,
         }));
       } else {
-        this.props.onCharComplete(true);
+        this.props.onLetterEntered(true);
         this.setState((state) => ({
-          curCharIdx: state.curCharIdx + 1,
+          curLetterIdx: state.curLetterIdx + 1,
           lastWasWrong: false,
         }));
       }
     } else {
-      this.props.onCharComplete(false);
-      this.setState({
+      this.props.onLetterEntered(false);
+      this.setState((state) => ({
         lastWasWrong: true,
-      });
+      }));
     }
   };
 
@@ -47,24 +47,29 @@ export class Word extends React.Component {
     document.removeEventListener("keydown", this.keyDown);
   };
 
-  getLetterClass = (idx) => {
-    if (idx === this.state.curCharIdx && this.state.lastWasWrong) {
-      return "d-inline fw-bold text-danger big-word";
-    } else if (idx === this.state.curCharIdx) {
-      return "d-inline fw-bold text-primary big-word";
-    } else if (idx < this.state.curCharIdx) {
-      return "d-inline fw-bold text-success word";
+  getLetterStyleClass = (idx) => {
+    const common = "d-inline fw-bold";
+    if (idx === this.state.curLetterIdx && this.state.lastWasWrong) {
+      return common + " text-danger big-word";
+    } else if (idx === this.state.curLetterIdx) {
+      return common + " text-primary big-word";
+    } else if (idx < this.state.curLetterIdx) {
+      return common + " text-success word";
     } else {
-      return "d-inline fw-bold text-secondary word";
+      return common + " text-secondary word";
     }
   };
 
   render = () => {
+    if (!this.props.text) {
+      return null;
+    }
+
     let letters = [];
     for (let i = 0; i < this.props.text.length; i++) {
-      let className = this.getLetterClass(i);
+      let styleClass = this.getLetterStyleClass(i);
       letters.push(
-        <p key={i} className={className}>
+        <p key={i} className={styleClass}>
           {this.props.text.charAt(i)}
         </p>
       );

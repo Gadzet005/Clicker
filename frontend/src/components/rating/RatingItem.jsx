@@ -21,7 +21,7 @@ export const RatingItem = ({ name, score, place, IconComp }) => {
         {placeComp}
         <p className="my-0 fs-1 text-secondary me-2 ms-5">{place}.</p>
         <p className="my-0 me-auto fs-1 text-secondary">{name}</p>
-        <IconComp quantity={score} />
+        <IconComp value={score} />
       </div>
     </li>
   );
