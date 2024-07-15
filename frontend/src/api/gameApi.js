@@ -1,15 +1,10 @@
-import { authHost } from "./axiosApi.js";
+import { host } from "./axiosApi.js";
 
 export const getWords = async (wordAmount, maxWordHardness) => {
-  const { data } = await authHost.post(
-    "/getWords",
-    { wordAmount, maxWordHardness },
-    {
-      headers: {
-        "content-type": "application/json",
-      },
-    }
-  );
+  const { data } = await host.post("/getWords", {
+    wordAmount,
+    maxWordHardness,
+  });
 
   return data.words;
 };

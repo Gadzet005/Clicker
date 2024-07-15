@@ -1,4 +1,8 @@
-export const PasswordField = ({ name = "password", label = "Пароль" }) => {
+export const PasswordField = ({
+  name = "password",
+  label = "Пароль",
+  required = true,
+}) => {
   return (
     <div className="mb-3">
       <label htmlFor={name} className="form-label">
@@ -10,6 +14,7 @@ export const PasswordField = ({ name = "password", label = "Пароль" }) => 
         autoComplete="current-password"
         className="form-control"
         id={name}
+        required={required}
       />
     </div>
   );

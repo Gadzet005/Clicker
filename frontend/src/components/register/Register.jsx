@@ -3,12 +3,15 @@ import { PasswordField } from "../common/PasswordField";
 import { TextField } from "../common/TextField";
 import { Link, useNavigate } from "react-router-dom";
 import { LOGIN_PAGE, ACCOUNT_PAGE } from "../../routing/consts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setAuthAction } from "../../store/userReducers";
 import { useSelector, useDispatch } from "react-redux";
 import { userRegistration } from "../../api/userApi";
+import { FormError } from "../common/FormError";
 
 export const Register = () => {
+  const [error, setError] = useState(null);
+
   const isAuth = useSelector((state) => state.user.isAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,10 +20,8 @@ export const Register = () => {
     if (isAuth) {
       navigate(ACCOUNT_PAGE);
     }
-    // eslint-disable-next-line
   }, [isAuth]);
 
-  // TODO: отравка запроса на сервер
   const submitHandler = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -30,8 +31,17 @@ export const Register = () => {
       data[key] = value;
     }
 
+    if (data.password !== data.passwordRepeat) {
+      setError(<FormError message="Пароли не совпадают" />);
+      return;
+    }
+
     userRegistration(data).then((data) => {
-      dispatch(setAuthAction(data));
+      if (data.success) {
+        dispatch(setAuthAction(data));
+      } else {
+        setError(<FormError message={data.message} />);
+      }
     });
   };
 
@@ -44,6 +54,7 @@ export const Register = () => {
           Страница входа
         </Link>
       </div>
+      <div className="d-flex justify-content-center">{error}</div>
 
       <div className="d-flex justify-content-center">
         <form className="w-25" onSubmit={submitHandler}>

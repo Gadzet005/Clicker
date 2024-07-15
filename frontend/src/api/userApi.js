@@ -2,33 +2,49 @@ import { host, authHost } from "./axiosApi.js";
 import { jwtDecode } from "jwt-decode";
 
 export const userLogin = async ({ email, password }) => {
-  const { data } = await host.post(
-    "/users/login",
-    { email, password },
-    {
-      headers: {
-        "content-type": "application/json",
-      },
-    }
-  );
+  try {
+    const { data } = await host.post("/users/login", { email, password });
+    localStorage.setItem("token", data.accessToken);
 
-  localStorage.setItem("token", data.accessToken);
-  return jwtDecode(data.accessToken);
+    let resultData = jwtDecode(data.accessToken);
+    resultData.success = true;
+    return resultData;
+  } catch (error) {
+    if (error.response.status === 400) {
+      const data = {
+        success: false,
+        message: "Ошибка авторизации",
+      };
+      return data;
+    } else {
+      throw error;
+    }
+  }
 };
 
-export const userRegistration = async ({ email, password, name, surname }) => {
-  const { data } = await host.post(
-    "/users/register",
-    { email, password, name },
-    {
-      headers: {
-        "content-type": "application/json",
-      },
-    }
-  );
+export const userRegistration = async ({ email, password, name }) => {
+  try {
+    const { data } = await host.post("/users/register", {
+      email,
+      password,
+      name,
+    });
 
-  localStorage.setItem("token", data.accessToken);
-  return jwtDecode(data.accessToken);
+    localStorage.setItem("token", data.accessToken);
+    let resultData = jwtDecode(data.accessToken);
+    resultData.success = true;
+    return resultData;
+  } catch (error) {
+    if (error.response.status === 400) {
+      const data = {
+        success: false,
+        message: "Ошибка регистрации",
+      };
+      return data;
+    } else {
+      throw error;
+    }
+  }
 };
 
 export const refreshToken = async () => {
@@ -39,7 +55,18 @@ export const refreshToken = async () => {
 };
 
 export const userLogout = async () => {
-  const { data } = await authHost.get("/users/logout");
+  await authHost.get("/users/logout");
   localStorage.removeItem("token");
   return;
+};
+
+export const getUserData = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      return jwtDecode(token);
+    } catch (e) {
+      return;
+    }
+  }
 };

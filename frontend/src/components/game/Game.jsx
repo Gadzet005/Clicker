@@ -31,7 +31,6 @@ export class Game extends React.Component {
     this.noteId = 0;
   }
 
-  // TODO: Запрос на сервер
   getNewWordList = () => {
     getWords(100, 0.1).then((words) => {
       this.setState({ wordList: words });

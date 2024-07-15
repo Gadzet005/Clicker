@@ -1,4 +1,8 @@
-export const EmailField = ({ name = "email", label = "Email" }) => {
+export const EmailField = ({
+  name = "email",
+  label = "Email",
+  required = true,
+}) => {
   return (
     <div className="mb-3">
       <label htmlFor={name} className="form-label">
@@ -11,6 +15,7 @@ export const EmailField = ({ name = "email", label = "Email" }) => {
         className="form-control"
         id={name}
         placeholder="example@email.com"
+        required={required}
       />
     </div>
   );

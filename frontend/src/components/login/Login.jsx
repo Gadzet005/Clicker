@@ -1,13 +1,16 @@
 import { EmailField } from "../common/EmailField";
 import { PasswordField } from "../common/PasswordField";
+import { FormError } from "../common/FormError";
 import { Link, useNavigate } from "react-router-dom";
 import { REGISTER_PAGE, ACCOUNT_PAGE } from "../../routing/consts";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setAuthAction } from "../../store/userReducers";
 import { userLogin } from "../../api/userApi.js";
 
 export const Login = () => {
+  const [error, setError] = useState(null);
+
   const isAuth = useSelector((state) => state.user.isAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +22,6 @@ export const Login = () => {
     // eslint-disable-next-line
   }, [isAuth]);
 
-  // TODO: отравка запроса на сервер
   const submitHandler = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -30,7 +32,11 @@ export const Login = () => {
     }
 
     userLogin(data).then((data) => {
-      dispatch(setAuthAction(data));
+      if (data.success) {
+        dispatch(setAuthAction(data));
+      } else {
+        setError(<FormError message={data.message} />);
+      }
     });
   };
 
@@ -43,6 +49,7 @@ export const Login = () => {
           Страница регистрации
         </Link>
       </div>
+      <div className="d-flex justify-content-center">{error}</div>
 
       <div className="d-flex justify-content-center">
         <form className="w-25" onSubmit={submitHandler}>
