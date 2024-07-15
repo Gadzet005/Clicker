@@ -30,7 +30,7 @@ class WordGetterController {
       if (!errors.isEmpty())
         return next(ApiError.badRequest(JSON.stringify(errors.mapped())));
 
-      const { wordAmount, maxWordHardness } = req.body;
+      const { wordAmount, maxWordHardness } = req.query;
       resp.json({
         words: this.getNRandomWords(
           wordAmount,
@@ -39,7 +39,6 @@ class WordGetterController {
       });
       next();
     } catch (err) {
-      console.error(err);
       next(err);
     }
   };

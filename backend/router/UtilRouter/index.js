@@ -1,14 +1,14 @@
 const express = require("express");
-const { body } = require("express-validator");
+const { query } = require("express-validator");
 const {
   WordGetterController,
 } = require("../../controller/WordGetterController");
 const router = express.Router();
 
-router.post(
+router.get(
   "/getWords",
-  body("wordAmount").isInt({ min: 1, max: 100000 }),
-  body("maxWordHardness").isFloat({ min: 0, max: 1 }),
+  query("wordAmount").isInt({ min: 1, max: 100000 }),
+  query("maxWordHardness").isFloat({ min: 0, max: 1 }),
   WordGetterController.GetWords
 );
 
