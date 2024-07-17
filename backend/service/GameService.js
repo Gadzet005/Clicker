@@ -1,4 +1,4 @@
-const { Profile } = require("../db");
+const { Profile, User } = require("../db");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const ApiError = require("../errors");
@@ -9,11 +9,7 @@ const upgradeList = require("../controller/UpgradeList.json");
 class GameService {
   async type(userId, success, completeWord) {
     try {
-      
-
       const profile = await Profile.findOne({ where: { userId } });
-
-      
 
       if (success) {
         profile.coinCount +=
@@ -25,7 +21,6 @@ class GameService {
             upgradeList.upgrades[0].effect[
               profile.dataValues.upgrades[0].level
             ];
-            
         }
       } else {
         profile.coinCount -=
@@ -39,44 +34,91 @@ class GameService {
 
   async buyUpgrade(userId, upgradeId) {
     try {
-        const profile = await Profile.findOne({ where: { userId } });
+      const profile = await Profile.findOne({ where: { userId } });
     } catch (e) {
       throw new Error(e);
     }
   }
   async getProfile(userId) {
     try {
-        const profile = await Profile.findOne({ where: { userId } });
-        
-        return profile.dataValues
+      const profile = await Profile.findOne({ where: { userId } });
+
+      return profile.dataValues;
     } catch (e) {
       throw new Error(e);
     }
   }
   async getBestUsersByWord() {
     try {
-        
-      const tmp = Profile.findAll({});
-      //console.log(tmp);
-      tmp.then((arr) => {
-        console.log(arr);
-        for(const prof of arr){
-            prof.dataValues.wordCount;
-            
+      const arr = await Profile.findAll({});
+      let users = [];
+      for (const prof of arr) {
+        const user = await User.findOne({
+          where: { id: prof.dataValues.userId },
+        });
+
+        users.push({
+          name: user.name,
+          wordCount: prof.dataValues.wordCount,
+        });
+      }
+
+      users.sort((a, b)=>{
+        if(a.wordCount > b.wordCount){
+            return -1;
         }
-      })
-      
-      
+        if(a.wordCount < b.wordCount){
+            return 1;
+        }
+        if(a.name < b.name){
+            return -1;
+        }
+        if(a.name > b.name){
+            return 1;
+        }
+        return 0;
+      });
+
+      return users;
     } catch (e) {
       throw new Error(e);
     }
   }
   async getBestUsersByCoin() {
     try {
-    } catch (e) {
-      throw new Error(e);
+        const arr = await Profile.findAll({});
+        let users = [];
+        for (const prof of arr) {
+          const user = await User.findOne({
+            where: { id: prof.dataValues.userId },
+          });
+  
+          users.push({
+            name: user.name,
+            coinCount: prof.dataValues.coinCount,
+          });
+        }
+  
+        users.sort((a, b)=>{
+          if(a.coinCount > b.coinCount){
+              return -1;
+          }
+          if(a.coinCount < b.coinCount){
+              return 1;
+          }
+          if(a.name < b.name){
+              return -1;
+          }
+          if(a.name > b.name){
+              return 1;
+          }
+          return 0;
+        });
+        return users;
+      } catch (e) {
+        throw new Error(e);
+      }
     }
-  }
 }
 
 module.exports = new GameService();

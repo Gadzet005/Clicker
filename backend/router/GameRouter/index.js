@@ -21,7 +21,7 @@ router.post(
   gameController.getProfile
 );
 
-router.post( ///
+router.post( //
   "/buyUpgrade",
   //authMiddleware,
   body("upgradeId").isString(),

@@ -70,7 +70,7 @@ class GameController {
 
   async getBestUsersByWord(req, res, next) {
     try {
-      const { users } = GameService.getBestUsersByWord();
+      const users = await GameService.getBestUsersByWord();
       return res.json({
         users
       });
@@ -81,7 +81,9 @@ class GameController {
 
   async getBestUsersByCoin(req, res, next) {
     try {
-      const { users } = GameService.getBestUsersByCoin();
+      const users = await GameService.getBestUsersByCoin();
+      
+      
       return res.json({
         users
       });
@@ -92,7 +94,8 @@ class GameController {
   
   async getRatingPosition(req, res, next) {
     try {
-      const { users } = GameService.getBestUsersByCoin();
+      const users = await GameService.getBestUsersByCoin();
+      
       return res.json({
         users
       });
