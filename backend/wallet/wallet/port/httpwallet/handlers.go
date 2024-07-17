@@ -2,8 +2,9 @@ package httpwallet
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
+	"net/url"
+	"strconv"
 
 	"go.uber.org/zap"
 )
@@ -14,16 +15,18 @@ func (s *server) getTransactionQRHandler(w http.ResponseWriter, r *http.Request)
 
 	var data getQRrequest
 	{ // get req data part
-		var buf []byte = make([]byte, 1e5)
-		n, err := r.Body.Read(buf)
-		if err != io.EOF {
-			s.lg.Warn("got too long request assumed as bad request")
+		qs, err := url.ParseQuery(r.URL.RawQuery)
+		if err != nil {
+			s.lg.Warn("failed to parse request data", zap.Error(err))
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
-		if err := json.Unmarshal(buf[:n], &data); err != nil {
-			s.lg.Warn("failed to parse request data", zap.Error(err))
+		var err1, err2 error
+		data.TonAmt, err1 = strconv.ParseFloat(qs.Get("TonAmt"), 64)
+		data.UID, err2 = strconv.ParseUint(qs.Get("UID"), 10, 64)
+		if err1 != nil || err2 != nil {
+			s.lg.Warn("failed to parse request data", zap.Error(err1), zap.Error(err2))
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
