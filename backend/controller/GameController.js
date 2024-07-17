@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const ApiError = require("../errors");
 const gameService = require("../service/GameService");
 const upgradeList = require("./UpgradeList.json");
+const basicIndicators = require("./basicIndicators.json")
 const GameService = require("../service/GameService");
 
 
@@ -50,7 +51,7 @@ class GameController {
 
       const { userId } = req.body;
       let result = gameService.getProfile(userId);
-      //console.log(result)
+      
       result.then((profile) => {
         return res.json({profile})
       })
@@ -87,6 +88,25 @@ class GameController {
     } catch (e) {
       next(e);
     }
+  }
+  
+  async getRatingPosition(req, res, next) {
+    try {
+      const { users } = GameService.getBestUsersByCoin();
+      return res.json({
+        users
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getBasicIndicators(req, res, next){
+    try {
+      return res.json(basicIndicators);
+    } catch (e) {   
+      next(e);
+    } 
   }
 }
 

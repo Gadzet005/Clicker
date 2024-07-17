@@ -55,7 +55,18 @@ class GameService {
   }
   async getBestUsersByWord() {
     try {
-      const arr = [];
+        
+      const tmp = Profile.findAll({});
+      //console.log(tmp);
+      tmp.then((arr) => {
+        console.log(arr);
+        for(const prof of arr){
+            prof.dataValues.wordCount;
+            
+        }
+      })
+      
+      
     } catch (e) {
       throw new Error(e);
     }
