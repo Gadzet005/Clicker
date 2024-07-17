@@ -1,75 +1,71 @@
-const { Profile } = require('../db')
-const { v4: uuidv4 } = require('uuid');
-const bcrypt = require('bcrypt')
-const ApiError = require('../errors')
-const Profile_dto = require('../dto/profile_dto')
-const tokenService = require('../service/TokenService')
-
+const { Profile } = require("../db");
+const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcrypt");
+const ApiError = require("../errors");
+const Profile_dto = require("../dto/profile_dto");
+const tokenService = require("../service/TokenService");
+const upgradeList = require("../controller/UpgradeList.json");
 
 class GameService {
+  async type(userId, success, completeWord) {
+    try {
+      
 
-    async type(accessToken, success, completeWord){
+      const profile = await Profile.findOne({ where: { userId } });
+
+      
+
+      if (success) {
+        profile.coinCount +=
+          upgradeList.upgrades[1].effect[profile.dataValues.upgrades[1].level];
+
+        if (completeWord) {
+          profile.wordCount++;
+          profile.coinCount +=
+            upgradeList.upgrades[0].effect[
+              profile.dataValues.upgrades[0].level
+            ];
+            
+        }
+      } else {
+        profile.coinCount -=
+          upgradeList.upgrades[2].effect[profile.dataValues.upgrades[2].level];
+      }
+      profile.save();
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async buyUpgrade(userId, upgradeId) {
+    try {
+        const profile = await Profile.findOne({ where: { userId } });
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+  async getProfile(userId) {
+    try {
+        const profile = await Profile.findOne({ where: { userId } });
         
-        try {
-            
-            const localUserData = tokenService.validateAccessToken(accessToken);
-            if(!localUserData) throw ApiError.unauthorized();
-
-            const id = localUserData.id;
-            const profile = await Profile.findOne({where: {id}});
-
-            if(success){
-                profile.coinCount += ;
-                
-                if(completeWord){
-                    profile.wordCount++;
-                }
-            }
-            else{
-                
-            }
-            profile.save();
-            
-
-        } catch (e) {
-          next(e);
-        }
+        return profile.dataValues
+    } catch (e) {
+      throw new Error(e);
     }
-
-    async buyUpgrade(accessToken, upgradeId){
-        try {
-
-            const localUserData = tokenService.validateAccessToken(accessToken);
-            if(!localUserData) throw ApiError.unauthorized();
-
-        } catch (e) {
-          next(e);
-        }
+  }
+  async getBestUsersByWord() {
+    try {
+      const arr = [];
+    } catch (e) {
+      throw new Error(e);
     }
-    async getProfile(accessToken){
-        try {
-
-            const localUserData = tokenService.validateAccessToken(accessToken);
-            if(!localUserData) throw ApiError.unauthorized();
-
-        } catch (e) {
-          next(e);
-        }
+  }
+  async getBestUsersByCoin() {
+    try {
+    } catch (e) {
+      throw new Error(e);
     }
-    async getBestUsersByWord(){
-        try {
-            const arr = []
-
-        } catch (e) {
-          next(e);
-        }
-    }
-    async getBestUsersByCoin(){
-        try {
-        } catch (e) {
-          next(e);
-        }
-    }
+  }
 }
 
 module.exports = new GameService();

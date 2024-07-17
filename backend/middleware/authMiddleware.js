@@ -6,6 +6,7 @@ function authMiddleware(req, res, next) {
     try{
         const authorizationHeader = req.headers.authorization;
         const {refreshToken} = req.cookies;
+        
         if(!authorizationHeader) return next(ApiError.unauthorized());
 
         const accessToken = authorizationHeader.split(' ')[1];

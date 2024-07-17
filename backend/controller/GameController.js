@@ -1,8 +1,9 @@
 const { validationResult } = require("express-validator");
 const ApiError = require("../errors");
 const gameService = require("../service/GameService");
-const upgradeList = require("UpgradeList.json");
+const upgradeList = require("./UpgradeList.json");
 const GameService = require("../service/GameService");
+
 
 class GameController {
   async type(req, res, next) {
@@ -11,9 +12,9 @@ class GameController {
       if(!errors.isEmpty()){
         return next(ApiError.badRequest(JSON.stringify(errors.mapped()))); 
       }
-
-      const { accessToken, success, completeWord} = req.body;
-      gameService.type(accessToken, success, completeWord);
+      const { userId, success, completeWord} = req.body;
+      
+      gameService.type(userId, success, completeWord);
       
       return res.status(200).end();
     
@@ -28,9 +29,10 @@ class GameController {
       if(!errors.isEmpty()){
         return next(ApiError.badRequest(JSON.stringify(errors.mapped()))); 
       }
-
-      const { upgradeId, accessToken } = req.body;
-      gameService.buyUpgrade(accessToken, upgradeId);
+      
+      const { userId } = req.body;
+      const { upgradeId } = req.body;
+      gameService.buyUpgrade(userId, upgradeId);
 
       return res.status(200).end();
 
@@ -46,10 +48,11 @@ class GameController {
         return next(ApiError.badRequest(JSON.stringify(errors.mapped()))); 
       }
 
-      const { accessToken } = req.body;
-      const { profile} = gameService.getProfile(accessToken);
-      return res.json({
-        profile
+      const { userId } = req.body;
+      let result = gameService.getProfile(userId);
+      //console.log(result)
+      result.then((profile) => {
+        return res.json({profile})
       })
     } catch (e) {
       next(e);
