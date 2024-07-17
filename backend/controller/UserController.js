@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const ApiError = require("../errors");
 const userService = require("../service/UserService");
 
+
 class UserController {
   async register(req, res, next) {
     try {
