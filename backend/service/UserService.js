@@ -1,9 +1,12 @@
 const { User } = require('../db')
+const { Profile } = require('../db')
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt')
 const ApiError = require('../errors')
 const User_dto = require('../dto/user_dto')
 const tokenService = require('../service/TokenService')
+
+
 
 class UserService {
     async register(email, name, password){
@@ -16,12 +19,13 @@ class UserService {
             const hashPassword = await bcrypt.hash(password, 5);
             const user = await User.create({email: email, name: name, walletData: '', password: hashPassword, refreshToken: 'tmp'})
 
+            const profile = await Profile.create({userId: user.id, lastTimeSynchronization: 0, coinCount: 0, wordCount: 0, upgrades: []})
+            profile.save();
 
             const userDTO = new User_dto(user);
 
 
             const tokens = tokenService.generateTokens({...userDTO});
-
 
             await tokenService.saveToken(userDTO.id, tokens.refreshToken);
             return{
