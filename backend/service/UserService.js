@@ -22,7 +22,7 @@ class UserService {
 
             
 
-            const profile = await Profile.create({userId: user.id, lastTimeSynchronization: 0, coinCount: 0, wordCount: 0, upgrades: [{id:"1", "level":0}, {id:"2", "level":0}, {id:"3", "level":0}, {id:"4", "level":0}]})
+            const profile = await Profile.create({userId: user.id, lastTimeSynchronization: 0, coinCount: 0, wordCount: 0, upgrades: {"arr":[{id:"1", "level":0}, {id:"2", "level":0}, {id:"3", "level":0}, {id:"4", "level":0}]}})
             
             
 

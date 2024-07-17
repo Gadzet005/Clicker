@@ -21,7 +21,7 @@ router.post(
   gameController.getProfile
 );
 
-router.post( //
+router.post(
   "/buyUpgrade",
   //authMiddleware,
   body("upgradeId").isString(),
@@ -40,9 +40,9 @@ router.get("/getAllUpgrades", gameController.getAllUpgrades);
 router.get("/getBasicIndicators", gameController.getBasicIndicators);
 
 
-router.get("/getBestUsersByWord", gameController.getBestUsersByWord); ///
+router.get("/getBestUsersByWord", gameController.getBestUsersByWord);
 
-router.get("/getBestUsersByCoin", gameController.getBestUsersByCoin); ///
+router.get("/getBestUsersByCoin", gameController.getBestUsersByCoin);
 
 
 

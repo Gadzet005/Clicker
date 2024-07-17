@@ -33,7 +33,7 @@ class GameController {
       
       const { userId } = req.body;
       const { upgradeId } = req.body;
-      gameService.buyUpgrade(userId, upgradeId);
+      await gameService.buyUpgrade(userId, upgradeId);
 
       return res.status(200).end();
 

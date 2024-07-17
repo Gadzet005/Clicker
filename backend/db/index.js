@@ -14,7 +14,7 @@ const Profile = sequelize.define("profile", {
   lastTimeSynchronization: { type: DataTypes.INTEGER, allowNull: false },
   coinCount: {type: DataTypes.DOUBLE, allowNull:false},
   wordCount: {type: DataTypes.INTEGER, allowNull:false},
-  upgrades: {type:DataTypes.JSON,}
+  upgrades: {type:DataTypes.JSON}
 });
 
 User.belongsTo(Profile);
