@@ -3,6 +3,7 @@ import { Words } from "../common/Words";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotAuthAction } from "../../store/userReducers";
 import { userLogout } from "../../api/userApi";
+import exitImage from "./imgs/exit.png";
 
 export const Account = () => {
   const user = useSelector((state) => state.user);
@@ -17,28 +18,41 @@ export const Account = () => {
   return (
     <div>
       <div className="d-flex justify-content-center">
-        <h1>Профиль</h1>
+        <h1 className="text-center">{user.name}</h1>
+        <div className="d-flex align-items-center ms-3">
+          <button className="btn btn-danger pe-0" onClick={logoutHandler}>
+            <img
+              className="me-2"
+              width="25px"
+              height="25px"
+              src={exitImage}
+              alt="Выйти"
+              onClick={logoutHandler}
+              title="Выйти"
+            />
+          </button>
+        </div>
       </div>
 
       <div className="container">
-        <h1 className="mb-3">{user.name}</h1>
         <h2>Почта: {user.email}</h2>
         <div>
-          <h2 className="d-inline me-3">Монет:</h2>{" "}
-          <Coins value={user.profile.coins} />
+          <h2 className="d-inline me-2">Монеты:</h2>{" "}
+          <Coins
+            value={user.profile.coins}
+            textStyle="me-2 fs-3"
+            imageWidth="25px"
+            imageHeight="25px"
+          />
         </div>
         <div>
-          <h2 className="d-inline me-3">Слов:</h2>{" "}
-          <Words value={user.profile.words} />
-        </div>
-
-        <div className="d-flex justify-content-center">
-          <button
-            className="btn btn-primary btn-lg mt-5 px-5"
-            onClick={logoutHandler}
-          >
-            Выйти из аккаунта
-          </button>
+          <h2 className="d-inline me-2">Слова:</h2>{" "}
+          <Words
+            value={user.profile.words}
+            textStyle="me-2 fs-3"
+            imageWidth="25px"
+            imageHeight="25px"
+          />
         </div>
       </div>
     </div>

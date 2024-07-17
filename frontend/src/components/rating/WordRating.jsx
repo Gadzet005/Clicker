@@ -22,7 +22,7 @@ export const WordRating = () => {
 
   return (
     <div>
-      <RatingHeader title={"Рейтинг игроков: слова"} />
+      <RatingHeader title="Рейтинг игроков: слова" />
       <BaseRating getList={getPlayers} IconComp={Words} />
     </div>
   );

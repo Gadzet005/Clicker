@@ -1,10 +1,13 @@
 import { ShopItem } from "./ShopItem";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Coins } from "../common/Coins";
 
 export const Shop = () => {
   const [shopItems, setShopItems] = useState([]);
+  const user = useSelector((state) => state.user);
 
-  // TOOO: считывание с json файла
+  // TOOO: запрос к серверу
   const getShopItems = () => {
     return [
       {
@@ -52,10 +55,19 @@ export const Shop = () => {
 
   return (
     <div>
-      <h1 className="text-center mb-5">Магазин улучшений</h1>
-      <div className="container d-flex flex-wrap justify-content-around">
-        {shopItems}
+      <h1 className="text-center">Магазин улучшений</h1>
+      <div className="d-flex justify-content-center">
+        <h2 className="d-inline">Ваши монеты:</h2>
+        <div className="d-inline">
+          <Coins
+            value={user.profile.coins}
+            textStyle="me-1 ms-3 fs-3"
+            imageWidth="25px"
+            imageHeight="25px"
+          />
+        </div>
       </div>
+      <div className="container d-flex flex-wrap mt-5">{shopItems}</div>
     </div>
   );
 };
