@@ -8,17 +8,9 @@ const router = express.Router();
 router.post(
   "/type",
   //authMiddleware,
-  body("userId").isString(),
   body("success").isBoolean(),
   body("completeWord").isBoolean(),
   gameController.type
-);
-
-router.post(
-  "/getProfile",
-  //authMiddleware,
-  body("userId").isString(),
-  gameController.getProfile
 );
 
 router.post(
@@ -28,10 +20,15 @@ router.post(
   gameController.buyUpgrade
 );
 
-router.post( ///
+router.get(
+  "/getProfile",
+  //authMiddleware,
+  gameController.getProfile
+);
+
+router.get( ///
     "/getRatingPosition",
     //authMiddleware,
-    body("userId").isString(),
     getRatingPosition
   );
 

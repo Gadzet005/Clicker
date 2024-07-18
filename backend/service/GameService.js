@@ -6,11 +6,18 @@ const Profile_dto = require("../dto/profile_dto");
 const tokenService = require("../service/TokenService");
 const upgradeList = require("../controller/UpgradeList.json");
 
-class GameService {
-  async type(userId, success, completeWord) {
-    try {
-      const profile = await Profile.findOne({ where: { userId } });
+// Return userId from accessToken, only if user authorised
+userIdFromAccessToken = (accessToken) => {
+  const userData = tokenService.validateAccessToken(accessToken);
+  return userData.id;
+};
 
+class GameService {
+  async type(accessToken, success, completeWord) {
+    try {
+      const userId = userIdFromAccessToken(accessToken);
+      const profile = await Profile.findOne({ where: { userId } });
+      const oldCoinCount = profile.coinCount;
       if (success) {
         profile.coinCount +=
           upgradeList.upgrades[1].effect[
@@ -31,13 +38,19 @@ class GameService {
           ];
       }
       profile.save();
+      return {
+        "moneyChanging": profile.coinCount - oldCoinCount,
+        "coinCount": profile.coinCount,
+        "wordCount": profile.wordCount
+      };
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  async buyUpgrade(userId, upgradeId) {
+  async buyUpgrade(accessToken, upgradeId) {
     try {
+      const userId = userIdFromAccessToken(accessToken);
       const profile = await Profile.findOne({ where: { userId } });
       profile.save;
       const upId = parseInt(upgradeId) - 1;
@@ -60,14 +73,15 @@ class GameService {
         upgradeList.upgrades[upId].costs[profile.upgrades.arr[upId].level + 1];
 
       profile.upgrades.arr[upId].level++;
-      profile.changed('upgrades', true);
+      profile.changed("upgrades", true);
       profile.save();
     } catch (e) {
       throw new Error(e);
     }
   }
-  async getProfile(userId) {
+  async getProfile(accessToken) {
     try {
+      const userId = userIdFromAccessToken(accessToken);
       const profile = await Profile.findOne({ where: { userId } });
 
       return profile.dataValues;
@@ -142,6 +156,14 @@ class GameService {
         return 0;
       });
       return users;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async getRatingPosition(accessToken) {
+    try {
+      const userId = userIdFromAccessToken(accessToken);
     } catch (e) {
       throw new Error(e);
     }

@@ -5,6 +5,14 @@ const upgradeList = require("./UpgradeList.json");
 const basicIndicators = require("./basicIndicators.json")
 const GameService = require("../service/GameService");
 
+// Return accessToken from request, only if user authorised
+accessTokenFromReq = (req) => {
+  const authorizationHeader = req.headers.authorization;
+
+  const accessToken = authorizationHeader.split(" ")[1];
+
+  return accessToken;
+};
 
 class GameController {
   async type(req, res, next) {
@@ -13,11 +21,14 @@ class GameController {
       if(!errors.isEmpty()){
         return next(ApiError.badRequest(JSON.stringify(errors.mapped()))); 
       }
-      const { userId, success, completeWord} = req.body;
+      const accessToken = accessTokenFromReq(req);
+      const { success, completeWord} = req.body;
       
-      gameService.type(userId, success, completeWord);
+      const { moneyChanging, coinCount, wordCount } = await gameService.type(accessToken, success, completeWord);
       
-      return res.status(200).end();
+      return res.status(200).json({
+        moneyChanging, coinCount, wordCount
+      });
     
     } catch (e) {
       next(e);
@@ -30,10 +41,9 @@ class GameController {
       if(!errors.isEmpty()){
         return next(ApiError.badRequest(JSON.stringify(errors.mapped()))); 
       }
-      
-      const { userId } = req.body;
+      const accessToken = accessTokenFromReq(req);
       const { upgradeId } = req.body;
-      await gameService.buyUpgrade(userId, upgradeId);
+      await gameService.buyUpgrade(accessToken, upgradeId);
 
       return res.status(200).end();
 
@@ -49,8 +59,9 @@ class GameController {
         return next(ApiError.badRequest(JSON.stringify(errors.mapped()))); 
       }
 
-      const { userId } = req.body;
-      let result = gameService.getProfile(userId);
+      const accessToken = accessTokenFromReq(req);
+
+      let result = gameService.getProfile(accessToken);
       
       result.then((profile) => {
         return res.json({profile})
@@ -97,7 +108,7 @@ class GameController {
       const users = await GameService.getBestUsersByCoin();
       
       return res.json({
-        users
+        position:"1"
       });
     } catch (e) {
       next(e);
