@@ -1,29 +1,22 @@
 import { BaseRating } from "./BaseRating";
 import { Coins } from "../common/Coins";
 import { RatingHeader } from "./RatingHeader";
+import { getCoinRating } from "../../api/gameApi";
+import { useEffect, useState } from "react";
 
 export const CoinRating = () => {
-  // TODO: получение списка игроков с сервера
-  const getPlayers = () => {
-    return [
-      { id: 2, name: "Игрок 2", score: 450 },
-      { id: 3, name: "sdsdadsadd", score: 126 },
-      { id: 4, name: "Kto ya?", score: 100 },
-      { id: 1, name: "Gadzet", score: 55 },
-      { id: 5, name: "Hello world", score: 5 },
-      { id: 6, name: "heehhe", score: 4 },
-      { id: 7, name: "lol", score: 3 },
-      { id: 8, name: "XD", score: 2 },
-      { id: 9, name: "heehhe", score: 1 },
-      { id: 10, name: "lol", score: 0 },
-      { id: 11, name: "XD21333333333333333333333333333333132321", score: 0 },
-    ];
-  };
+  const [rating, setRating] = useState([]);
+
+  useEffect(() => {
+    getCoinRating().then((data) => {
+      setRating(data);
+    });
+  }, []);
 
   return (
     <div>
       <RatingHeader title="Рейтинг игроков: монеты" />
-      <BaseRating getList={getPlayers} IconComp={Coins} />
+      <BaseRating list={rating} IconComp={Coins} />
     </div>
   );
 };

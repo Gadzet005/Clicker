@@ -7,8 +7,21 @@ import { Link } from "react-router-dom";
 import { DONATE_PAGE } from "../../routing/consts";
 import exitImage from "./imgs/exit.png";
 import donateImage from "./imgs/donate.png";
+import { useEffect, useState } from "react";
+import { getRatingPosition } from "../../api/gameApi";
 
 export const Account = () => {
+  const [ratingPosition, setRatingPosition] = useState({
+    positionWord: null,
+    positionCoin: null,
+  });
+
+  useEffect(() => {
+    getRatingPosition().then((data) => {
+      setRatingPosition(data);
+    });
+  }, []);
+
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -40,6 +53,8 @@ export const Account = () => {
 
       <div className="container">
         <h2>Почта: {user.email}</h2>
+        <h2>Место в рейтинге монет: {ratingPosition.positionCoin}</h2>
+        <h2>Место в рейтинге слов: {ratingPosition.positionWord}</h2>
         <div>
           <h2 className="d-inline me-2">Монеты:</h2>{" "}
           <Coins

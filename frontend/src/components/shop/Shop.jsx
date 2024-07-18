@@ -2,56 +2,70 @@ import { ShopItem } from "./ShopItem";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Coins } from "../common/Coins";
+import { getAllUpgrades } from "../../api/gameApi";
+
+const getUpgradeInfo = (upgrade, level) => {
+  switch (upgrade.id) {
+    case 1:
+      return {
+        name: "Монеты за слово",
+        description: `Множитель монет за введенное слово: ${upgrade.effect[level]}x`,
+      };
+    case 2:
+      return {
+        name: "Монеты за букву",
+        description: `Множитель монет за введенную букву: ${upgrade.effect[level]}x`,
+      };
+    case 3:
+      return {
+        name: "Штраф за ошибку",
+        description: `Множитель монет за ошибку: ${upgrade.effect[level]}x`,
+      };
+    case 4:
+      return {
+        name: "Простота слов",
+        description: "Облегчает слова",
+      };
+    default:
+      return { name: "", description: "" };
+  }
+};
 
 export const Shop = () => {
   const [shopItems, setShopItems] = useState([]);
   const user = useSelector((state) => state.user);
 
-  // TOOO: запрос к серверу
-  const getShopItems = () => {
-    return [
-      {
-        id: 1,
-        name: "Монеты за слово",
-        description: "Увеличение монет за каждое введеное слово",
-        cost: 100,
-        level: 0,
-        maxLevel: 5,
-      },
-      {
-        id: 2,
-        name: "Монеты за символ",
-        description: "Увеличение монет за каждый введеный символ",
-        cost: 200,
-        level: 2,
-        maxLevel: 3,
-      },
-      {
-        id: 3,
-        name: "Штраф",
-        description: "Уменьшение штрафа при ошибке",
-        cost: 500,
-        level: 3,
-        maxLevel: 3,
-      },
-    ];
-  };
-
   useEffect(() => {
-    setShopItems(
-      getShopItems().map((item) => (
-        <ShopItem
-          key={item.id}
-          id={item.id}
-          name={item.name}
-          description={item.description}
-          cost={item.cost}
-          level={item.level}
-          maxLevel={item.maxLevel}
-        />
-      ))
-    );
-  }, []);
+    if (user.profile.upgrades.length === 0) {
+      return;
+    }
+
+    getAllUpgrades().then((upgrades) => {
+      setShopItems(
+        upgrades.map((upgrade) => {
+          const level = user.profile.upgrades.find(
+            (elem) => elem.id === upgrade.id
+          ).level;
+
+          const info = getUpgradeInfo(upgrade, level);
+
+          return (
+            <ShopItem
+              key={upgrade.id}
+              id={upgrade.id}
+              name={info.name}
+              description={info.description}
+              cost={
+                level + 1 === upgrade.levels ? "∞" : upgrade.costs[level + 1]
+              }
+              level={level}
+              maxLevel={upgrade.levels - 1}
+            />
+          );
+        })
+      );
+    });
+  }, [user.profile.upgrades]);
 
   return (
     <div>
