@@ -17,13 +17,13 @@ export const Note = ({ value }) => {
   if (value > 0) {
     return (
       <div className="note">
-        <Coins value={<p className="text-success my-0">+{value}</p>} />
+        <Coins textStyle="text-success" value={`+${value}`} />
       </div>
     );
   }
   return (
     <div className="note">
-      <Coins value={<p className="text-danger my-0">{value}</p>} />
+      <Coins textStyle="text-danger" value={value} />
     </div>
   );
 };

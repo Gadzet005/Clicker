@@ -6,6 +6,7 @@ import {
   ACCOUNT_PAGE,
   COIN_RATING_PAGE,
   WORD_RATING_PAGE,
+  SHOP_PAGE,
 } from "../../routing/consts";
 import { HeaderItem } from "./HeaderItem";
 import { useSelector } from "react-redux";
@@ -23,6 +24,11 @@ const list = [
   {
     name: "Игра",
     path: GAME_PAGE,
+    type: ONLY_FOR_AUTH,
+  },
+  {
+    name: "Магазин",
+    path: SHOP_PAGE,
     type: ONLY_FOR_AUTH,
   },
   {

@@ -3,14 +3,18 @@ import { AppRouter } from "./routing/AppRouter";
 import "./app.css";
 import { Header } from "./components/header/Header";
 import { getUserData } from "./api/userApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthAction } from "./store/userReducers";
 
 const App = () => {
+  const isAuth = useSelector((state) => state.user.isAuth);
   const dispatch = useDispatch();
-  const data = getUserData();
-  if (data) {
-    dispatch(setAuthAction(data));
+
+  if (!isAuth) {
+    const data = getUserData();
+    if (data) {
+      dispatch(setAuthAction(data));
+    }
   }
 
   return (
