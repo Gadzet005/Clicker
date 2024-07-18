@@ -7,6 +7,7 @@ import {
   COIN_RATING_PAGE,
   WORD_RATING_PAGE,
   SHOP_PAGE,
+  DONATE_PAGE,
 } from "./consts";
 import { Home } from "../components/home/Home";
 import { Game } from "../components/game/Game";
@@ -16,6 +17,7 @@ import { Account } from "../components/account/Account";
 import { CoinRating } from "../components/rating/CoinRating";
 import { WordRating } from "../components/rating/WordRating";
 import { Shop } from "../components/shop/Shop";
+import { Donate } from "../components/donate/Donate";
 
 export const authRoutes = [
   {
@@ -29,6 +31,10 @@ export const authRoutes = [
   {
     path: SHOP_PAGE,
     component: <Shop />,
+  },
+  {
+    path: DONATE_PAGE,
+    component: <Donate />,
   },
 ];
 

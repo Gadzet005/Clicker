@@ -67,7 +67,9 @@ export const Shop = () => {
           />
         </div>
       </div>
-      <div className="container d-flex flex-wrap mt-5">{shopItems}</div>
+      <div className="container d-flex flex-wrap mt-5 justify-content-center">
+        {shopItems}
+      </div>
     </div>
   );
 };
