@@ -5,8 +5,8 @@ import { Note } from "./Note";
 import { Coins } from "../common/Coins";
 import { Words } from "../common/Words";
 import { store } from "../../store";
-import { changeCoinsAction, changeWordsAction } from "../../store/userReducers";
-import { getWords } from "../../api/gameApi";
+import { setProfileAction } from "../../store/userReducers";
+import { getWords, type } from "../../api/gameApi";
 
 export class Game extends React.Component {
   constructor(props) {
@@ -51,24 +51,26 @@ export class Game extends React.Component {
     return this.state.wordList[this.state.curWordIdx];
   };
 
-  changeCoins = (value) => {
-    store.dispatch(changeCoinsAction({ coins: value }));
-
-    this.setState((state) => ({
-      notes: [...state.notes, <Note key={this.noteId} value={value} />],
-    }));
-    this.noteId++;
-  };
-
-  changeWords = (value) => {
-    store.dispatch(changeWordsAction({ words: value }));
+  typeHandler = (success, completeWord) => {
+    type(success, completeWord).then(
+      ({ moneyChanging, coinCount, wordCount }) => {
+        store.dispatch(
+          setProfileAction({ coins: coinCount, words: wordCount })
+        );
+        this.setState((state) => ({
+          notes: [
+            ...state.notes,
+            <Note key={this.noteId} value={moneyChanging} />,
+          ],
+        }));
+        this.noteId++;
+      }
+    );
   };
 
   wordEnteredHandler = () => {
-    const coinsByWord = 100;
+    this.typeHandler(true, true);
 
-    this.changeCoins(coinsByWord);
-    this.changeWords(1);
     this.setState((state) => ({
       curWordIdx: state.curWordIdx + 1,
     }));
@@ -79,11 +81,7 @@ export class Game extends React.Component {
   };
 
   letterEnteredHandler = (success) => {
-    const coinsByLetterSuccess = 10;
-    const coinsByLetterFailure = -50;
-
-    const value = success ? coinsByLetterSuccess : coinsByLetterFailure;
-    this.changeCoins(value);
+    this.typeHandler(success, false);
   };
 
   componentDidMount = () => {

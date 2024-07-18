@@ -1,18 +1,21 @@
-import { useState } from "react";
 import { Coins } from "../common/Coins";
 import { useSelector, useDispatch } from "react-redux";
-import { changeCoinsAction } from "../../store/userReducers";
+import { buyUpgrade } from "../../api/gameApi";
 import upgradeImage from "./imgs/upgrade.png";
+import { getUserProfile } from "../../api/userApi";
+import { setProfileAction } from "../../store/userReducers";
 
 export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [curLevel, setLevel] = useState(level);
 
   const buyItemHandler = () => {
     if (user.profile.coins >= cost) {
-      dispatch(changeCoinsAction({ coins: -cost }));
-      setLevel(curLevel + 1);
+      buyUpgrade(id).then(() => {
+        getUserProfile().then((data) => {
+          dispatch(setProfileAction(data));
+        });
+      });
     }
   };
 
@@ -22,8 +25,8 @@ export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
         <img className=" w-25 h-25" src={upgradeImage} alt="Улучшение" />
       </div>
       <h1 className="text-center">{name}</h1>
-      <p className="text-muted">{description}</p>
-      <div>
+      <p className="text-muted text-center my-1">{description}</p>
+      <div className="text-center">
         <p className="d-inline me-3 fs-3">Стоимость:</p>
         <Coins
           value={cost}
@@ -35,11 +38,11 @@ export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
           imageHeight="25px"
         />
       </div>
-      <p className="fs-3">
-        Текущий уровень: {curLevel} / {maxLevel}
+      <p className="text-center fs-3">
+        Уровень: {level} / {maxLevel}
       </p>
       <div className="d-flex justify-content-center">
-        {curLevel === maxLevel ? (
+        {level === maxLevel ? (
           <button className="btn btn-danger btn-lg disabled">
             макс. уровень
           </button>
@@ -51,7 +54,7 @@ export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
             }
             onClick={buyItemHandler}
           >
-            {curLevel === 0 ? "Купить" : "Улучшить"}
+            {level === 0 ? "Купить" : "Улучшить"}
           </button>
         )}
       </div>

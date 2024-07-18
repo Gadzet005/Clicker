@@ -4,15 +4,15 @@ const defaultState = {
   name: null,
   isAuth: false,
   profile: {
-    coins: 0,
-    words: 0,
+    coins: null,
+    words: null,
+    upgrades: [],
   },
 };
 
 const SET_AUTH = "SET_AUTH";
 const SET_NOTAUTH = "SET_NOTAUTH";
-const CHANGE_COINS = "CHANGE_COINS";
-const CHANGE_WORDS = "CHANGE_WORDS";
+const SET_PROFILE = "SET_PROFILE";
 
 export const userReducer = (state = defaultState, action) => {
   const payload = action.payload;
@@ -28,20 +28,16 @@ export const userReducer = (state = defaultState, action) => {
       };
     case SET_NOTAUTH:
       return { ...defaultState };
-    case CHANGE_COINS:
+    case SET_PROFILE:
       return {
         ...state,
         profile: {
-          ...state.profile,
-          coins: Math.max(state.profile.coins + payload.coins, 0),
-        },
-      };
-    case CHANGE_WORDS:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          words: state.profile.words + payload.words,
+          words: payload.words,
+          coins: payload.coins,
+          upgrades:
+            payload.upgrades == null
+              ? state.profile.upgrades
+              : payload.upgrades,
         },
       };
     default:
@@ -51,5 +47,4 @@ export const userReducer = (state = defaultState, action) => {
 
 export const setAuthAction = (payload) => ({ type: SET_AUTH, payload });
 export const setNotAuthAction = (payload) => ({ type: SET_NOTAUTH, payload });
-export const changeCoinsAction = (payload) => ({ type: CHANGE_COINS, payload });
-export const changeWordsAction = (payload) => ({ type: CHANGE_WORDS, payload });
+export const setProfileAction = (payload) => ({ type: SET_PROFILE, payload });

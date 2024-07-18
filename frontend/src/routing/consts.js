@@ -6,3 +6,4 @@ export const GAME_PAGE = "/game";
 export const COIN_RATING_PAGE = "/rating/coins";
 export const WORD_RATING_PAGE = "/rating/words";
 export const SHOP_PAGE = "/shop";
+export const DONATE_PAGE = "/donate";

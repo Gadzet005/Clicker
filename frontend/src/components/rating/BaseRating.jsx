@@ -1,15 +1,12 @@
 import { RatingItem } from "./RatingItem";
 import { useSelector } from "react-redux";
 
-export const BaseRating = ({ getList, IconComp }) => {
+export const BaseRating = ({ list, IconComp }) => {
   const user = useSelector((state) => state.user);
 
-  const list = getList().map((elem) => {
-    return {
-      ...elem,
-      name: elem.name.slice(0, 15) + (elem.name.length > 15 ? "..." : ""),
-    };
-  });
+  if (list.length === 0) {
+    return <h1 className="text-center">Рейтинг пуст</h1>;
+  }
 
   let place = null;
   const items = [];

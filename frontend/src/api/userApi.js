@@ -60,6 +60,23 @@ export const userLogout = async () => {
   return;
 };
 
+export const getUserProfile = async () => {
+  try {
+    const { data } = await authHost.get("/game/getProfile");
+
+    return {
+      coins: data.profile.coinCount,
+      words: data.profile.wordCount,
+      upgrades: data.profile.upgrades.arr.map(({ id, level }) => ({
+        id: Number(id),
+        level,
+      })),
+    };
+  } catch (error) {
+    return { coins: null, words: null, upgrades: null };
+  }
+};
+
 export const getUserData = () => {
   const token = localStorage.getItem("token");
   if (token) {
