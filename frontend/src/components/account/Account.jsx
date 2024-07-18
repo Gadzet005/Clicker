@@ -51,27 +51,29 @@ export const Account = () => {
         </div>
       </div>
 
-      <div className="container">
-        <h2>Почта: {user.email}</h2>
-        <h2>Место в рейтинге монет: {ratingPosition.positionCoin}</h2>
-        <h2>Место в рейтинге слов: {ratingPosition.positionWord}</h2>
+      <div className="d-flex justify-content-center">
         <div>
-          <h2 className="d-inline me-2">Монеты:</h2>{" "}
-          <Coins
-            value={user.profile.coins}
-            textStyle="me-2 fs-3"
-            imageWidth="25px"
-            imageHeight="25px"
-          />
-        </div>
-        <div>
-          <h2 className="d-inline me-2">Слова:</h2>{" "}
-          <Words
-            value={user.profile.words}
-            textStyle="me-2 fs-3"
-            imageWidth="25px"
-            imageHeight="25px"
-          />
+          <h2>Почта: {user.email}</h2>
+          <h2>Место в рейтинге монет: {ratingPosition.positionCoin}</h2>
+          <h2>Место в рейтинге слов: {ratingPosition.positionWord}</h2>
+          <div>
+            <h2 className="d-inline me-2">Монеты:</h2>{" "}
+            <Coins
+              value={user.profile.coins}
+              textStyle="me-2 fs-3"
+              imageWidth="25px"
+              imageHeight="25px"
+            />
+          </div>
+          <div>
+            <h2 className="d-inline me-2">Слова:</h2>{" "}
+            <Words
+              value={user.profile.words}
+              textStyle="me-2 fs-3"
+              imageWidth="25px"
+              imageHeight="25px"
+            />
+          </div>
         </div>
       </div>
     </div>

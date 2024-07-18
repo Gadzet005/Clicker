@@ -6,25 +6,54 @@ import { getAllUpgrades } from "../../api/gameApi";
 
 const getUpgradeInfo = (upgrade, level) => {
   switch (upgrade.id) {
-    case 1:
+    case 1: {
+      const percent = Math.round((upgrade.effect[level] - 1) * 100);
       return {
         name: "Монеты за слово",
-        description: `Множитель монет за введенное слово: ${upgrade.effect[level]}x`,
+        description: (
+          <p className="my-0">
+            Увеличение получаемых монет за введенное слово на
+            <p className="text-success fw-bold d-inline fs-5 ms-2">
+              {percent}%
+            </p>
+          </p>
+        ),
       };
-    case 2:
+    }
+    case 2: {
+      const percent = Math.round((upgrade.effect[level] - 1) * 100);
       return {
         name: "Монеты за букву",
-        description: `Множитель монет за введенную букву: ${upgrade.effect[level]}x`,
+        description: (
+          <p className="my-0">
+            Увеличение получаемых монет за введенную букву на
+            <p className="text-success fw-bold d-inline fs-5 ms-2">
+              {percent}%
+            </p>
+          </p>
+        ),
       };
-    case 3:
+    }
+    case 3: {
+      const percent = Math.round((1 - upgrade.effect[level]) * 100);
       return {
         name: "Штраф за ошибку",
-        description: `Множитель монет за ошибку: ${upgrade.effect[level]}x`,
+        description: (
+          <p className="my-0">
+            Уменьшение штрафа за ошибку на
+            <p className="text-success fw-bold d-inline fs-5 ms-2">
+              {percent}%
+            </p>
+          </p>
+        ),
       };
+    }
     case 4:
       return {
         name: "Простота слов",
-        description: "Облегчает слова",
+        description: (
+          <p className="my-0">Упрощение появляющихся на экране слов</p>
+        ),
       };
     default:
       return { name: "", description: "" };

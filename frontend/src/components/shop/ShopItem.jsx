@@ -25,8 +25,8 @@ export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
         <img className=" w-25 h-25" src={upgradeImage} alt="Улучшение" />
       </div>
       <h1 className="text-center">{name}</h1>
-      <p className="text-muted text-center">{description}</p>
-      <div>
+      <p className="text-muted text-center my-1">{description}</p>
+      <div className="text-center">
         <p className="d-inline me-3 fs-3">Стоимость:</p>
         <Coins
           value={cost}
@@ -38,8 +38,8 @@ export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
           imageHeight="25px"
         />
       </div>
-      <p className="fs-3">
-        Текущий уровень: {level} / {maxLevel}
+      <p className="text-center fs-3">
+        Уровень: {level} / {maxLevel}
       </p>
       <div className="d-flex justify-content-center">
         {level === maxLevel ? (
