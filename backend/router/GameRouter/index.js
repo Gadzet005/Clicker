@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   "/type",
-  //authMiddleware,
+  authMiddleware,
   body("success").isBoolean(),
   body("completeWord").isBoolean(),
   gameController.type
@@ -15,32 +15,25 @@ router.post(
 
 router.post(
   "/buyUpgrade",
-  //authMiddleware,
+  authMiddleware,
   body("upgradeId").isString(),
   gameController.buyUpgrade
 );
 
-router.get(
-  "/getProfile",
-  //authMiddleware,
-  gameController.getProfile
-);
+router.get("/getProfile", authMiddleware, gameController.getProfile);
 
-router.get( ///
-    "/getRatingPosition",
-    //authMiddleware,
-    getRatingPosition
-  );
+router.get(
+  "/getRatingPosition",
+  authMiddleware,
+  getRatingPosition
+);
 
 router.get("/getAllUpgrades", gameController.getAllUpgrades);
 
 router.get("/getBasicIndicators", gameController.getBasicIndicators);
 
-
 router.get("/getBestUsersByWord", gameController.getBestUsersByWord);
 
 router.get("/getBestUsersByCoin", gameController.getBestUsersByCoin);
-
-
 
 module.exports = router;

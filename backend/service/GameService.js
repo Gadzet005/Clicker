@@ -163,7 +163,37 @@ class GameService {
 
   async getRatingPosition(accessToken) {
     try {
-      const userId = userIdFromAccessToken(accessToken);
+      const id = userIdFromAccessToken(accessToken);
+      
+      const userName = (await User.findOne({where:{id}})).name;
+
+      const users = await this.getBestUsersByWord();
+      let positionCoin = 0;
+      let positionWord = 0;
+      let i = 0;
+      for(const user of users){
+        i++;
+        if(user.name === userName){
+          positionWord = i;
+          break;
+        }
+      }
+
+
+      const users_2 = await this.getBestUsersByCoin();
+
+      i = 0;
+      for(const user of users_2){
+        i++;
+        if(user.name === userName){
+          positionCoin = i;
+          break;
+        }
+      }
+
+      console.log(positionCoin, positionWord)
+
+      return {positionWord, positionCoin}
     } catch (e) {
       throw new Error(e);
     }

@@ -105,10 +105,12 @@ class GameController {
   
   async getRatingPosition(req, res, next) {
     try {
-      const users = await GameService.getBestUsersByCoin();
-      
+      const accessToken = accessTokenFromReq(req);
+      const {positionWord, positionCoin} = await GameService.getRatingPosition(accessToken);
+      console.log(positionCoin, positionWord);
       return res.json({
-        position:"1"
+        positionWord,
+        positionCoin 
       });
     } catch (e) {
       next(e);
