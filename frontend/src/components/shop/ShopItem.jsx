@@ -11,10 +11,12 @@ export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
 
   const buyItemHandler = () => {
     if (user.profile.coins >= cost) {
-      buyUpgrade(id).then(() => {
-        getUserProfile().then((data) => {
-          dispatch(setProfileAction(data));
-        });
+      buyUpgrade(id).then((success) => {
+        if (success) {
+          getUserProfile().then((data) => {
+            dispatch(setProfileAction(data));
+          });
+        }
       });
     }
   };
@@ -25,7 +27,7 @@ export const ShopItem = ({ id, name, description, cost, level, maxLevel }) => {
         <img className=" w-25 h-25" src={upgradeImage} alt="Улучшение" />
       </div>
       <h1 className="text-center">{name}</h1>
-      <p className="text-muted text-center my-1">{description}</p>
+      <div className="text-muted text-center my-1">{description}</div>
       <div className="text-center">
         <p className="d-inline me-3 fs-3">Стоимость:</p>
         <Coins

@@ -11,12 +11,12 @@ const getUpgradeInfo = (upgrade, level) => {
       return {
         name: "Монеты за слово",
         description: (
-          <p className="my-0">
+          <div>
             Увеличение получаемых монет за введенное слово на
             <p className="text-success fw-bold d-inline fs-5 ms-2">
               {percent}%
             </p>
-          </p>
+          </div>
         ),
       };
     }
@@ -25,12 +25,12 @@ const getUpgradeInfo = (upgrade, level) => {
       return {
         name: "Монеты за букву",
         description: (
-          <p className="my-0">
+          <div>
             Увеличение получаемых монет за введенную букву на
             <p className="text-success fw-bold d-inline fs-5 ms-2">
               {percent}%
             </p>
-          </p>
+          </div>
         ),
       };
     }
@@ -39,12 +39,12 @@ const getUpgradeInfo = (upgrade, level) => {
       return {
         name: "Штраф за ошибку",
         description: (
-          <p className="my-0">
+          <div>
             Уменьшение штрафа за ошибку на
             <p className="text-success fw-bold d-inline fs-5 ms-2">
               {percent}%
             </p>
-          </p>
+          </div>
         ),
       };
     }

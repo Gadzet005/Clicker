@@ -62,5 +62,10 @@ export const getAllUpgrades = async () => {
 };
 
 export const buyUpgrade = async (id) => {
-  await authHost.post("/game/buyUpgrade", { upgradeId: String(id) });
+  try {
+    await authHost.post("/game/buyUpgrade", { upgradeId: String(id) });
+    return true;
+  } catch (err) {
+    return false;
+  }
 };

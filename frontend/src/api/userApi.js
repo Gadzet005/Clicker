@@ -35,7 +35,7 @@ export const userRegistration = async ({ email, password, name }) => {
     resultData.success = true;
     return resultData;
   } catch (error) {
-    if (error.response.status === 400) {
+    if (error.response.status === 400 || error.response.status === 500) {
       const data = {
         success: false,
         message: "Ошибка регистрации",
