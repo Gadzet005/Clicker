@@ -7,7 +7,7 @@
 ### frontend
 - Перейдите в папку /frontend
 - Создайте .env файл (можно воспользоваться env.example)
-- Пропишите ```npm run start```
+- Пропишите ```npm i``` и ```npm run start```
 ### mobile
 - Перейти в /Mobile/ContentView
 - Замените ```SERVER_ADDR``` и ```SERVER_PORT``` на ваши (если backend запускается на localhost, можно пропустить этот шаг)
