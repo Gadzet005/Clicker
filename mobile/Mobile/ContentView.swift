@@ -17,6 +17,8 @@ let REGISTER_ROUTER="/users/register"
 let LOGIN_ROUTER="/users/login"
 let LOGOUT_ROUTER="/users/logout"
 let GETWORDS_ROUTER="/getWords"
+let LADDER_WORDS_ROUTER="/game/getBestUsersByWord"
+let LADDER_COINS_ROUTER="/game/getBestUsersByCoin"
 let TYPE_ROUTER="/game/type"
 let REFRESH_TOKEN_ROUTER="/users/refreshtoken"
 
@@ -77,7 +79,7 @@ struct ContentView: View {
     
     @State var isRegistered: Bool = false
     @State var isAuthed: Bool = false
-    @AppStorage("currentPage") var currentPage: String = "Game"
+    @State var currentPage: String = "Game"
     
     var body: some View {
         HStack {
@@ -91,7 +93,7 @@ struct ContentView: View {
                 if currentPage == "Ladder" {
                     LadderV(currentPage: $currentPage)
                 } else {
-                    GameV(chs: $chs, colors: $colors, coinCount: $coinCount, wordCount: $wordCount, app: GameApp(chs: $chs, colors: $colors, coinCount: $coinCount, wordCount: $wordCount), currentPage: $currentPage)
+                    GameV(chs: $chs, colors: $colors, coinCount: $coinCount, wordCount: $wordCount, currentPage: $currentPage, app: GameApp(chs: $chs, colors: $colors, coinCount: $coinCount, wordCount: $wordCount))
                     //GameV(currentPage: $currentPage, chs: $chs)
                 }
             }

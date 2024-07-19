@@ -14,20 +14,25 @@ struct GameV: View {
     @State var text: String = ""
     @Binding var coinCount: Float64
     @Binding var wordCount: Int64
-    @FocusState private var focusedField: Bool
-
+    @Binding var currentPage: String
+    
     private let game = GameM(words: [], wordNow: "", chIndex: 0, wordStart: 0, noNewWords: true, waitForWords: false, nsLock: NSLock())
     
     var app: GameApp
     
-    @Binding var currentPage: String
     var body: some View {
         VStack {
-            Text("Счёт: \(coinCount)")
+            Button(action: {currentPage="Ladder"}, label: {
+                Text("Рейтинг")
+                    .font(.title2)
+            })
+            Text(String(format: "Счёт: %.2f", coinCount))
                 .padding(20)
                 .font(.title)
             Text("Слов напечатано: \(wordCount)")
                 .font(.title)
+                //.border(.gray)
+                //.background(Color(UIColor( red: CGFloat(255/255.0), green: CGFloat(255/255.0), blue: CGFloat(169/255.0), alpha: CGFloat(0.5))))
             Spacer()
             ZStack {
                 TextField("", text: $text)
@@ -36,7 +41,9 @@ struct GameV: View {
                     )
                     .frame(
                         minWidth: UIScreen.main.bounds.size.width,
-                        minHeight: 500
+                        maxWidth: .infinity,
+                        minHeight: 500,
+                        maxHeight: 500
                     )
                     .font(
                         .system(
@@ -79,6 +86,7 @@ struct GameV: View {
                 }.font(.title)
                 
             }
+            Spacer()
         }
         .task {
             app.setNewWord(game: game)
