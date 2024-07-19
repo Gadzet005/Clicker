@@ -17,6 +17,7 @@ let REGISTER_ROUTER="/users/register"
 let LOGIN_ROUTER="/users/login"
 let LOGOUT_ROUTER="/users/logout"
 let GETWORDS_ROUTER="/getWords"
+let TYPE_ROUTER="/game/type"
 let REFRESH_TOKEN_ROUTER="/users/refreshtoken"
 
 struct ContentView: View {
@@ -71,9 +72,11 @@ struct ContentView: View {
 
     @State var chs: [String] = Array(repeating: "", count: 20)
     @State var colors: [Color] = Array(repeating: Color.blue, count: 20)
+    @State var coinCount: Float64 = 0
+    @State var wordCount: Int64 = 0
     
-    @AppStorage("isRegistered") var isRegistered: Bool = false
-    @AppStorage("isAuthed") var isAuthed: Bool = false
+    @State var isRegistered: Bool = false
+    @State var isAuthed: Bool = false
     @AppStorage("currentPage") var currentPage: String = "Game"
     
     var body: some View {
@@ -88,7 +91,7 @@ struct ContentView: View {
                 if currentPage == "Ladder" {
                     LadderV(currentPage: $currentPage)
                 } else {
-                    GameV(chs: $chs, colors: $colors, app: GameApp(chs: $chs, colors: $colors), currentPage: $currentPage)
+                    GameV(chs: $chs, colors: $colors, coinCount: $coinCount, wordCount: $wordCount, app: GameApp(chs: $chs, colors: $colors, coinCount: $coinCount, wordCount: $wordCount), currentPage: $currentPage)
                     //GameV(currentPage: $currentPage, chs: $chs)
                 }
             }

@@ -11,8 +11,10 @@ import SwiftUI
 struct GameApp: View {
     @Binding var chs: [String]
     @Binding var colors: [Color]
+    @Binding var coinCount: Float64
+    @Binding var wordCount: Int64
     
-    var worker = WordsA()
+    var worker = GameA()
 
     func AddNewWords(words: [String], game: GameM) -> Void {
         //game.nsLock.lock() // что лочится ???
@@ -53,6 +55,14 @@ struct GameApp: View {
             ind += 1
         }
         chs = resChArray
+    }
+    
+    func CommitLetter(success: Bool, completeWord: Bool, onMoneyChange: @escaping ((Int64)->Void)) {
+        worker.CommitLetterA(request: RequestCommitLetterM(success: success, completeWord: completeWord), url: URL(string: SERVER_ADDR + ":" + SERVER_PORT + TYPE_ROUTER)!) { moneyChange, coinCount, wordCount in
+            self.coinCount = coinCount
+            self.wordCount = wordCount
+            onMoneyChange(moneyChange)
+        }
     }
     
     var body: some View {

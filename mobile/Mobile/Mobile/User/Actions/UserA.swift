@@ -20,6 +20,11 @@ struct ResponseUserTockenM: Decodable {
 
 struct UserActions {
     private let netWorker = Worker()
+
+    func updateTokens(onTokenInit: (()->Void)?) {
+        netWorker.onTokenInit = onTokenInit
+        netWorker.updateTokens()
+    }
     /*private let authCompletion: ((Result<ResponseUserTockenM?, Error>) -> Void) = { resp in
         switch resp {
             case .success(let data):
@@ -40,7 +45,7 @@ struct UserActions {
     }*/
     
     // I know that there is another easier solution exist, but I don't mind - understood it too late
-    class AsyncValue<T> {
+    /*class AsyncValue<T> {
         var value: T?
     }
     func RegisterAwaitA(request: UserM, url: URL) -> ResponseUserTockenM?  {
@@ -64,17 +69,34 @@ struct UserActions {
         }
         
         return res
+    }*/
+    
+    /*func LoginAwaitA(request: UserM, url: URL) async -> ResponseUserTockenM?  {
+       return await RegisterAwaitA(request: request, url: url)
+    }*/
+    
+    private func onComplettionWrap(onCompletion: @escaping ((Result<ResponseUserTockenM?, Error>) -> Void)) -> ((Result<ResponseUserTockenM?, Error>) -> Void) {
+        return { result in
+            onCompletion(result)
+            switch result {
+            case .success(let response):
+            if let regResp = response {
+                Worker.accessToken = regResp.accessToken
+            } else {
+                print("Failed to unwrap accessToken")
+            }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
-    func LoginAwaitA(request: UserM, url: URL) async -> ResponseUserTockenM?  {
-       return await RegisterAwaitA(request: request, url: url)
-    }
     
     func RegisterA(user: UserM, url: URL, onCompletion: @escaping ((Result<ResponseUserTockenM?, Error>) -> Void)) {
-        netWorker.fetch(preRequest: PreURLRequest<UserM>(url: url, httpMethod: "POST", body: user), completion: onCompletion)
+        netWorker.fetch(preRequest: PreURLRequest<UserM>(url: url, httpMethod: "POST", body: user), completion: onComplettionWrap(onCompletion: onCompletion))
     }
     
     func LoginA(user: UserM, url: URL, onCompletion: @escaping ((Result<ResponseUserTockenM?, Error>) -> Void)) {
-        netWorker.fetch(preRequest: PreURLRequest<UserM>(url: url, httpMethod: "POST", body: user), completion: onCompletion)
+        netWorker.fetch(preRequest: PreURLRequest<UserM>(url: url, httpMethod: "POST", body: user), completion: onComplettionWrap(onCompletion: onCompletion))
     }
 }

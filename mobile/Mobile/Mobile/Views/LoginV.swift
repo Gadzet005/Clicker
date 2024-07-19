@@ -66,6 +66,11 @@ struct LoginV: View {
             }) {
                 Text("Не зарегестрированны?")
             }
+        }.task {
+            userActs.updateTokens() {
+                isRegistered = true
+                isAuthed = true
+            }
         }
     }
 }

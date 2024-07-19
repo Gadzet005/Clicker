@@ -89,7 +89,7 @@ final class KeychainService: KeychainLogic {
 
             SecItemUpdate(updateQuery as CFDictionary, attributesToUpdate as CFDictionary)
         } else if status != errSecSuccess {
-            print(">>> Failed to set data in Keychain. Status: \(status)")
+            print("failed to set data in Keychain. Status: \(status)")
         }
     }
 

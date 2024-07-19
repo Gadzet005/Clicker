@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B88B06D62C492B7D0079881F /* GameA.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88B06D52C492B7D0079881F /* GameA.swift */; };
 		B8C09AAD2C46DB320032C3F3 /* MobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C09AAC2C46DB320032C3F3 /* MobileApp.swift */; };
 		B8C09AAF2C46DB320032C3F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C09AAE2C46DB320032C3F3 /* ContentView.swift */; };
 		B8C09AB12C46DB350032C3F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8C09AB02C46DB350032C3F3 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B88B06D52C492B7D0079881F /* GameA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameA.swift; sourceTree = "<group>"; };
 		B8C09AA92C46DB320032C3F3 /* Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8C09AAC2C46DB320032C3F3 /* MobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileApp.swift; sourceTree = "<group>"; };
 		B8C09AAE2C46DB320032C3F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			children = (
 				B8C09ADB2C488CA70032C3F3 /* GameApp.swift */,
 				B8C09ADE2C488DC30032C3F3 /* GameM.swift */,
+				B88B06D52C492B7D0079881F /* GameA.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				B8C09AC22C46DEB40032C3F3 /* UserM.swift in Sources */,
 				B8C09AD12C47E1EA0032C3F3 /* WordsA.swift in Sources */,
 				B8C09ABD2C46DD390032C3F3 /* UserA.swift in Sources */,
+				B88B06D62C492B7D0079881F /* GameA.swift in Sources */,
 				B8C09AC52C46FCFA0032C3F3 /* Network.swift in Sources */,
 				B8C09AAF2C46DB320032C3F3 /* ContentView.swift in Sources */,
 				B8C09AD82C4824390032C3F3 /* LadderV.swift in Sources */,

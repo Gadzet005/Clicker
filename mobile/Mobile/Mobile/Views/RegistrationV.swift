@@ -62,6 +62,11 @@ struct RegistrationV: View {
             }) {
                 Text("Уже зарегестрированны?")
             }
+        }.task {
+            userActs.updateTokens() {
+                isRegistered = true
+                isAuthed = true
+            }
         }
     }
 }
