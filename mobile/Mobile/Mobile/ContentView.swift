@@ -11,7 +11,7 @@ import DequeModule
 var User: UserM = UserM(name: "", password: "", email: "")
 //let env = ProcessInfo.processInfo.environment
 
-let SERVER_ADDR="http://192.168.1.2"
+let SERVER_ADDR="http://localhost"
 let SERVER_PORT="3005"
 let REGISTER_ROUTER="/users/register"
 let LOGIN_ROUTER="/users/login"
