@@ -17,7 +17,7 @@ export class Word extends React.Component {
     const word = this.props.text;
     const expected = word.charAt(this.state.curLetterIdx);
 
-    if (event.key === expected) {
+    if (event.code === "Key" + expected.toUpperCase()) {
       if (this.state.curLetterIdx + 1 === word.length) {
         this.props.onWordEntered();
         this.setState((state) => ({

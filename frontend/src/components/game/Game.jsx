@@ -90,20 +90,22 @@ export class Game extends React.Component {
 
   render = () => {
     return (
-      <div className="d-flex">
-        <div className="d-flex flex-column ms-5">
+      <div className="row h-100">
+        <div className="col-2 ps-5">
           <Coins value={this.state.coins} />
           <Words value={this.state.words} />
         </div>
 
-        <div className="d-flex flex-column mx-auto mt-5">
-          <Word
-            text={this.getWord()}
-            onWordEntered={this.wordEnteredHandler}
-            onLetterEntered={this.letterEnteredHandler}
-          />
-          <div className="d-flex justify-content-center">
-            {this.state.notes}
+        <div className="col-8 h-75 d-flex justify-content-center align-items-center">
+          <div>
+            <Word
+              text={this.getWord()}
+              onWordEntered={this.wordEnteredHandler}
+              onLetterEntered={this.letterEnteredHandler}
+            />
+            <div className="d-flex justify-content-center">
+              {this.state.notes}
+            </div>
           </div>
         </div>
       </div>

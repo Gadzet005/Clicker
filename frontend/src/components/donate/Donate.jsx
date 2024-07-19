@@ -21,7 +21,7 @@ export const Donate = () => {
   const [QR, setQR] = useState(null);
 
   const buyHandler = (coins, cost) => {
-    setQR(<QRCode coins={coins} cost={cost} />);
+    alert("Пока эта функция не доступна");
   };
 
   const donateItems = shop.map(({ coins, cost }) => {
