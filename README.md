@@ -19,7 +19,3 @@
 - Перейти в /Mobile/ContentView
 - Замените `SERVER_ADDR` и `SERVER_PORT` на ваши (если backend запускается на localhost, можно пропустить этот шаг)
 - Откройте приложение в XCode
-
-## [Ссылка на презу](https://docs.google.com/presentation/d/10DJ7uGG-RdzJUsnvgVlSHbHWyZYREbGBxRB398-C5V0/edit?pli=1#slide=id.gf09f6a330b_0_1289)
-
-## [Ссылка на сайт](http://89.169.167.150:3000)
